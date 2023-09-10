@@ -1,0 +1,9 @@
+.tabla{
+  border-collapse: separate;
+  border-spacing: 0 10px;
+}
+.tabla th,
+.tabla td {
+  padding: 10px; /* Añade relleno a las celdas para que se vean mejor */
+  border: 1px solid #ccc; /* Opcional: añade bordes a las celdas */
+}

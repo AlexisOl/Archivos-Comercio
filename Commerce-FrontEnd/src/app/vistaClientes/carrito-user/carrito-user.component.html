@@ -1,0 +1,19 @@
+<app-header-cli></app-header-cli>
+
+<div class = "container">
+<table class="tabla table table-bordered table-striped">
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>ROl</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let rol of roles">
+      <td><span>{{rol.identificador}}</span></td>
+      <td><span>{{rol.tipo}}</span></td>
+    </tr>
+  </tbody>
+
+</table>
+</div>

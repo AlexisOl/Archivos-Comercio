@@ -1,0 +1,26 @@
+<app-header-bodega></app-header-bodega>
+<!--pagina de informacion general del cajero-->
+
+
+<div class="container">
+  <h1>informacion General</h1>
+  <hr />
+</div>
+<div class="col-md-12">
+  <table class="table table-bordered  table-striped table-hover">
+      <thead class="bg-primary text-white">
+          <th>Identificador</th>
+          <th>Nombre Usuario</th>
+          <th>Area</th>
+          <th>Sucursal de Trabajo</th>
+      </thead>
+      <tr >
+        <td>{{usuario.identificador}}</td>
+        <td><span>{{usuario.nombre}}</span></td>
+        <td><span>{{usuario.id_rol}}</span></td>
+        <td><span>{{usuario.id_sucursal}}</span></td>
+      </tr>
+
+
+  </table>
+</div>
