@@ -1,20 +1,10 @@
 <mat-toolbar color="primary">
-  <div class="dropdown">
-    <button mat-button [matMenuTriggerFor]="menuNormal">
-      <mat-icon>menu</mat-icon>
-    </button>
-    <mat-menu #menuNormal="matMenu">
-      <button mat-menu-item >Ver Carrito</button>
-      <button mat-menu-item>Ver Historial de Compras</button>
-    </mat-menu>
-  </div>
-
   <button >
     <span>Bodega - General</span>
   </button>
   <span class="example-spacer"></span>
   <!--serie de botones-->
-  <button >Compras</button>
+  <button >Ingreso de Productos</button>
   <button
     mat-icon-button
     class="example-icon favorite-icon"
@@ -25,7 +15,7 @@
     </span>
   </button>
 
-  <button mat-button [matMenuTriggerFor]="fileMenu">Ingreso Usuario</button>
+  <button mat-button [matMenuTriggerFor]="fileMenu">Usuario</button>
   <mat-menu #fileMenu="matMenu">
     <button (click)="cerrarSesion()" mat-menu-item>Cerrar Sesion</button>
   </mat-menu>

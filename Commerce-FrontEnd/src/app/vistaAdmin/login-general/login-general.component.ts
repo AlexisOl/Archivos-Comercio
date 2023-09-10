@@ -61,20 +61,13 @@ export class LoginGeneralComponent implements OnInit {
         break;
       case "2":
      //   this.sesionActiva.setUsuario(usuarios)
-
         this.router.navigate(['/generalBodega'])
-
         break;
       case "3":
-        this.router.navigate([])
         this.router.navigate(['/generalAdmin'])
-
-
         break;
       case "4":
-        this.router.navigate([])
         this.router.navigate(['/generalInventario'])
-
 
         break;
 
