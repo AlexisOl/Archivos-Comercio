@@ -3,27 +3,22 @@ import { Router } from '@angular/router';
 import { SesionServicioService } from 'src/app/services/sesion-servicio.service';
 
 @Component({
-  selector: 'app-header-bodega',
-  templateUrl: './header-bodega.component.html',
-  styleUrls: ['./header-bodega.component.css']
+  selector: 'app-header-inventario',
+  templateUrl: './header-inventario.component.html',
+  styleUrls: ['./header-inventario.component.css']
 })
-export class HeaderBodegaComponent implements OnInit{
+export class HeaderInventarioComponent implements OnInit{
 
 
   constructor(private sesionActiva: SesionServicioService, private router: Router ) {}
-
-  //movimientos:
-  ingresoProdutos() {
-    this.router.navigate(['generalBodega/ingresoProductos'])
-  }
 
    cerrarSesion() {
     this.sesionActiva.eliminarUsuario();
     this.router.navigate(['./inicio'])
   }
 
+
   ngOnInit(): void {
-
+    throw new Error('Method not implemented.');
   }
-
 }

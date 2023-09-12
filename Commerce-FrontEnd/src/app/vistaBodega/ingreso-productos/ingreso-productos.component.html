@@ -1,0 +1,48 @@
+<app-header-cli></app-header-cli>
+
+<mat-sidenav-container class="example-container">
+  <mat-sidenav-content>
+    <div class="col-md-6 offset-md-3">
+      <div class="content mat-elevation-z8 justify-content-center">
+        <form #f = "ngForm" (ngSubmit)="ingresoProducto(f)">
+          <div class="loginForm">
+
+            <div class="mt-2">
+              <!--ingreso elementos-->
+              <label for="nombre" class="mt-5 d-flex justify-content-center">
+                Nombre de Producto
+              </label>
+              <input
+                type="text"
+                class="form-control mt-2"
+                placeholder="Nombre de Producto"
+                [(ngModel)]='nombre'
+                name="nombre"
+                required
+              />
+            </div>
+            <div class="mt-2">
+              <!--ingreso elementos-->
+              <label for="precio" class="mt-5 d-flex justify-content-center">
+                precio
+              </label>
+              <input
+                type="number"
+                class="form-control mt-2"
+                placeholder="precio"
+                name="precio"
+                [(ngModel)]='precio'
+                required
+              />
+            </div>
+            <div class="col-md-12 d-flex mt-6 justify-content-center">
+              <button type="submit" class="btn btn-primary">Ingreso de Producto</button>
+            </div>
+          </div>
+        </form>
+
+        <!--generacion de boton-->
+      </div>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

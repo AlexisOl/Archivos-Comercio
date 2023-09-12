@@ -14,7 +14,7 @@ export class HeaderCajeroComponent implements OnInit{
 
    cerrarSesion() {
     this.sesionActiva.eliminarUsuario();
-    this.router.navigate(['./inicio'])
+    this.router.navigate(['/inicio'])
   }
 
 

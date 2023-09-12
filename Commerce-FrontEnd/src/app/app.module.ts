@@ -27,6 +27,9 @@ import { HeaderCajeroComponent } from './vistaCajero/header-cajero/header-cajero
 import { HeaderBodegaComponent } from './vistaBodega/header-bodega/header-bodega.component';
 import { GeneralAdminComponent } from './vistaAdmin/general-admin/general-admin.component';
 import { GeneralInventarioComponent } from './vistaInventario/general-inventario/general-inventario.component';
+import { HeaderAdminComponent } from './vistaAdmin/header-admin/header-admin.component';
+import { HeaderInventarioComponent } from './vistaInventario/header-inventario/header-inventario.component';
+import { IngresoProductosComponent } from './vistaBodega/ingreso-productos/ingreso-productos.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -41,7 +44,10 @@ import { GeneralInventarioComponent } from './vistaInventario/general-inventario
     VistaGeneralComponent,
     HeaderBodegaComponent,
     GeneralAdminComponent,
-    GeneralInventarioComponent
+    GeneralInventarioComponent,
+    HeaderAdminComponent,
+    HeaderInventarioComponent,
+    IngresoProductosComponent,
   ],
   imports: [
 

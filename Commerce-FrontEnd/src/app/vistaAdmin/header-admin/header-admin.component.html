@@ -1,15 +1,20 @@
 <mat-toolbar color="primary">
+
+
   <button >
-    <span>Bodega - General</span>
+    <span>Admin - General</span>
   </button>
   <span class="example-spacer"></span>
   <!--serie de botones-->
-  <button (click)="ingresoProdutos()" >Ingreso de Productos</button>
-  <span class="example-spacer"></span>
+  <button >Manejo Empleados</button>
+
+  <button >Manejo Tarjetas</button>
+
+  <button >Manejo Reportes</button>
 
 
 
-  <button mat-button [matMenuTriggerFor]="fileMenu">Usuario</button>
+  <button mat-button [matMenuTriggerFor]="fileMenu">Usuarios</button>
   <mat-menu #fileMenu="matMenu">
     <button (click)="cerrarSesion()" mat-menu-item>Cerrar Sesion</button>
   </mat-menu>
