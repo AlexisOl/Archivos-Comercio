@@ -102,7 +102,7 @@ CREATE TABLE registroVentas.asignacion_bodega (
 
 -- scripts de roles ------------------------------------------------------
 
-
+--- rol para 
 
 
 
