@@ -1,13 +1,13 @@
 <mat-toolbar color="primary">
-  <button >
+  <button (click)="recargaBodega()" >
     <span>Bodega - General</span>
   </button>
   <span class="example-spacer"></span>
   <!--serie de botones-->
   <button (click)="ingresoProdutos()" >Ingreso de Productos</button>
   <span class="example-spacer"></span>
-
-
+  <button (click)="ingresoProductoSucursal()">Ingreso a Sucursal</button>
+  <span class="example-spacer"></span>
 
   <button mat-button [matMenuTriggerFor]="fileMenu">Usuario</button>
   <mat-menu #fileMenu="matMenu">

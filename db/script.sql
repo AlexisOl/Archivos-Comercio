@@ -4,14 +4,16 @@ CREATE DATABASE chapin_market;
 \c chapin_market;
 
 --creacion de schemas
-
+-- schema para sucursales
 CREATE SCHEMA manejoGeneral;
+-- schema para empleados
 CREATE SCHEMA manejoEmpleados;
 CREATE SCHEMA manejoVentas;
+-- schema como para bodega
 CREATE SCHEMA manejoProductos;
 
 
----tabla de sucursal
+---tabla de sucursal bvarchar porque yo ingreso los scripts
 CREATE TABLE manejoGeneral.sucursal( 
     identificador VARCHAR(25) NOT NULL,
     nombre VARCHAR(75) NOT NULL,
@@ -19,7 +21,7 @@ CREATE TABLE manejoGeneral.sucursal(
     PRIMARY KEY(identificador)
 );
 
---tabla de roles de empleados 
+--tabla de roles de empleados varchar porque yo ingreso los scripts
 
 CREATE TABLE manejoEmpleados.Roles (
     identificador VARCHAR(10) NOT NULL,
@@ -27,7 +29,7 @@ CREATE TABLE manejoEmpleados.Roles (
     PRIMARY KEY(identificador)
 );
 
---tabla de empleadoss  
+--tabla de empleadoss  SERIAL PORQUE AGREGO EVENTUALEMNTE 
 CREATE TABLE manejoEmpleados.Empleados (
     identificador VARCHAR(25) NOT NULL,
     nombre VARCHAR(50) NOT NULL,
@@ -40,14 +42,31 @@ CREATE TABLE manejoEmpleados.Empleados (
 
 );
 
--- tabal de los productos 
+-- tabla de los productos SERIAL PORQUE AGREGO EVENTUALEMNTE 
 CREATE TABLE manejoProductos.Productos (
-    identificador VARCHAR(25) NOT NULL,
+    identificador SERIAL NOT NULL,
     nombre VARCHAR(50) NOT NULL,
     precio DECIMAL(8,2),
     PRIMARY KEY(identificador)
 );
 
+
+-- tabla de asignacion en bodega  SERIAL PORQUE AGREGO EVENTUALEMNTE -------------------------------
+CREATE TABLE manejoProductos.asingacionBodega (
+    identificador SERIAL NOT NULL,
+    cantidad int NOT NULL,
+    fecha_asignacion DATE NOT NULL,
+    id_sucursal VARCHAR(25) NOT NULL,
+    id_producto int NOT NULL,
+    PRIMARY KEY (identificador),
+    FOREIGN KEY (id_sucursal) REFERENCES manejoGeneral.sucursal(identificador),
+    FOREIGN KEY (id_producto) REFERENCES manejoProductos.productos(identificador)
+);
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
 --tabla de clientes:
 CREATE TABLE manejoGeneral.Clientes (
     identificador VARCHAR(25) NOT NULL,

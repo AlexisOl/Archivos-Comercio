@@ -5,6 +5,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from 'src/app/utils/auth.guard';
 import { GeneralInventarioComponent } from 'src/app/vistaInventario/general-inventario/general-inventario.component';
 import { IngresoProductosComponent } from '../ingreso-productos/ingreso-productos.component';
+import { ProductoSucursalComponent } from '../producto-sucursal/producto-sucursal.component';
 
 const routes: Routes = [
   {path: '',
@@ -12,7 +13,10 @@ const routes: Routes = [
   canActivate: [AuthGuard]},
   {path: 'ingresoProductos',
   component:IngresoProductosComponent,
-  canActivate: [AuthGuard]}
+  canActivate: [AuthGuard]},
+  {path: 'productoaSucursal',
+  component:ProductoSucursalComponent,
+  canActivate:[AuthGuard]}
 
 ]
 

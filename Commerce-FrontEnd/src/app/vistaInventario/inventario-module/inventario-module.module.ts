@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from 'src/app/utils/auth.guard';
 import { GeneralInventarioComponent } from '../general-inventario/general-inventario.component';
+import { ManejoProductosComponent } from '../manejo-productos/manejo-productos.component';
 
 
 
@@ -10,7 +11,9 @@ import { GeneralInventarioComponent } from '../general-inventario/general-invent
 const routes: Routes = [
   {path: '',
   component:GeneralInventarioComponent,
-  canActivate: [AuthGuard]}
+  canActivate: [AuthGuard]},
+  {path:'manejoProducto',
+  component:ManejoProductosComponent}
 
 ]
 

@@ -16,7 +16,13 @@ export class HeaderBodegaComponent implements OnInit{
   ingresoProdutos() {
     this.router.navigate(['generalBodega/ingresoProductos'])
   }
+    recargaBodega() {
+      this.router.navigate(['generalBodega']);
+    }
 
+    ingresoProductoSucursal(){
+      this.router.navigate(['generalBodega/productoaSucursal'])
+    }
    cerrarSesion() {
     this.sesionActiva.eliminarUsuario();
     this.router.navigate(['./inicio'])

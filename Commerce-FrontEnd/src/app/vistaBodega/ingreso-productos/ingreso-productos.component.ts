@@ -35,11 +35,13 @@ export class IngresoProductosComponent implements OnInit{
     console.log(f.value.precio);
     const url = 'http://localhost:8080/api/user/guardarProducto';
     nuevoProduicto.nombre = f.value.nombre;
+    nuevoProduicto.id = null;
+
     nuevoProduicto.precio = f.value.precio;
-    this.http.post(url, nuevoProduicto).subscribe((res) =>{
+    /*this.http.post(url, nuevoProduicto).subscribe((res) =>{
       this.ngOnInit();
-    })
-   /* this.sesion.guardarProducto(f.value).subscribe(
+    })*/
+   this.sesion.guardarProducto(f.value).subscribe(
       (producto: producto) => {
         if (producto.nombre === undefined || producto.precio === undefined) {
           console.log('No se pudo ingresar Correctamente', 'error');
@@ -54,7 +56,7 @@ export class IngresoProductosComponent implements OnInit{
       (error: any) => {
         console.log(error);
       }
-    );*/
+    );
   }
 
 

@@ -17,6 +17,11 @@ export class HeaderInventarioComponent implements OnInit{
     this.router.navigate(['./inicio'])
   }
 
+  manejoProducto() {
+    this.router.navigate(['generalInventario/manejoProducto'])
+
+  }
+
 
   ngOnInit(): void {
     throw new Error('Method not implemented.');

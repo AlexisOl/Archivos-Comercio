@@ -30,6 +30,15 @@ import { GeneralInventarioComponent } from './vistaInventario/general-inventario
 import { HeaderAdminComponent } from './vistaAdmin/header-admin/header-admin.component';
 import { HeaderInventarioComponent } from './vistaInventario/header-inventario/header-inventario.component';
 import { IngresoProductosComponent } from './vistaBodega/ingreso-productos/ingreso-productos.component';
+import { ManejoProductosComponent } from './vistaInventario/manejo-productos/manejo-productos.component';
+import { ProductoSucursalComponent } from './vistaBodega/producto-sucursal/producto-sucursal.component';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatRadioModule} from '@angular/material/radio'
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MatOptionModule } from '@angular/material/core';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatSelectModule } from '@angular/material/select';
+import { VistaProductosComponent } from './vistaBodega/vista-productos/vista-productos.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -48,6 +57,9 @@ import { IngresoProductosComponent } from './vistaBodega/ingreso-productos/ingre
     HeaderAdminComponent,
     HeaderInventarioComponent,
     IngresoProductosComponent,
+    ManejoProductosComponent,
+    ProductoSucursalComponent,
+    VistaProductosComponent,
   ],
   imports: [
 
@@ -64,7 +76,13 @@ import { IngresoProductosComponent } from './vistaBodega/ingreso-productos/ingre
     MatBadgeModule,
     MatSidenavModule,
     ReactiveFormsModule,
-    MatTableModule
+    MatTableModule,
+    MatFormFieldModule,
+    MatRadioModule,
+    MatDatepickerModule,
+    MatOptionModule,
+    MatNativeDateModule,
+    MatSelectModule
   ],
   providers: [],
   bootstrap: [AppComponent]
