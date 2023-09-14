@@ -8,8 +8,9 @@
   <span class="example-spacer"></span>
   <button (click)="ingresoProductoSucursal()">Ingreso a Sucursal</button>
   <span class="example-spacer"></span>
-
-  <button mat-button [matMenuTriggerFor]="fileMenu">Usuario</button>
+  <button (click)="ingresoTabla()">Ver Productos</button>
+  <span class="example-spacer"></span>
+  <button mat-button [matMenuTriggerFor]="fileMenu">{{nombreUser}}</button>
   <mat-menu #fileMenu="matMenu">
     <button (click)="cerrarSesion()" mat-menu-item>Cerrar Sesion</button>
   </mat-menu>

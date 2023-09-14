@@ -1,0 +1,46 @@
+<app-header-inventario></app-header-inventario>
+<h1>Elementos en Bodega</h1>
+<table class="tabla table table-bordered table-striped">
+  <thead>
+    <tr>
+      <th>Identificador</th>
+      <th>Cantidad (En Bodega)</th>
+      <th>Fecha</th>
+      <th>Identificador de Sucursal</th>
+      <th>Identificador de Producto</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let producto of valor">
+      <td>{{ producto.identificador }}</td> <!-- Mostrar el identificador aquí -->
+      <td>{{ producto.cantidad }}</td>
+      <td>{{ producto.fecha_asignacion }}</td>
+      <td>{{ producto.id_sucursal }}</td>
+      <td>{{ producto.id_producto }}</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr/>
+<h1>Elementos en Inventario</h1>
+<table class="tabla table table-bordered table-striped">
+  <thead>
+    <tr>
+      <th>Identificador</th>
+      <th>Cantidad (En Bodega)</th>
+      <th>Fecha</th>
+      <th>Identificador de Sucursal</th>
+      <th>Identificador de Producto</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let producto of valor">
+      <td>{{ producto.identificador }}</td> <!-- Mostrar el identificador aquí -->
+      <td>{{ producto.cantidad }}</td>
+      <td>{{ producto.fecha_asignacion }}</td>
+      <td>{{ producto.id_sucursal }}</td>
+      <td>{{ producto.id_producto }}</td>
+    </tr>
+  </tbody>
+</table>
+

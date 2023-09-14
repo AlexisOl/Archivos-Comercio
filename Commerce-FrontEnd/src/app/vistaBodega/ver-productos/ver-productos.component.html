@@ -1,0 +1,18 @@
+<app-header-bodega></app-header-bodega>
+
+<table class="tabla table table-bordered table-striped">
+  <thead>
+    <tr>
+      <th>Identificador</th>
+      <th>Nombre</th>
+      <th>Precio</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let producto of valor">
+      <td>{{ producto.identificador }}</td> <!-- Mostrar el identificador aquí -->
+      <td>{{ producto.nombre }}</td>
+      <td>{{ producto.precio }}</td>
+    </tr>
+  </tbody>
+</table>

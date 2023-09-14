@@ -11,6 +11,8 @@ CREATE SCHEMA manejoEmpleados;
 CREATE SCHEMA manejoVentas;
 -- schema como para bodega
 CREATE SCHEMA manejoProductos;
+-- schema de inventario
+CREATE SCHEMA manejoInventario;
 
 
 ---tabla de sucursal bvarchar porque yo ingreso los scripts
@@ -61,6 +63,21 @@ CREATE TABLE manejoProductos.asingacionBodega (
     PRIMARY KEY (identificador),
     FOREIGN KEY (id_sucursal) REFERENCES manejoGeneral.sucursal(identificador),
     FOREIGN KEY (id_producto) REFERENCES manejoProductos.productos(identificador)
+);
+
+
+-- tabla de asignacion en inventario  SERIAL PORQUE AGREGO EVENTUALEMNTE -------------------------------
+
+CREATE TABLE manejoInventario.registroInventarioBodega(
+    identificador SERIAL NOT NULL,
+    codigo_producto_bodega int NOT NULL,
+    estado_uso VARCHAR(25) NOT NULL,
+    cantidadGeneral int NOT NULL,
+    pasillo VARCHAR(10) NOT NULL,
+    id_empleado VARCHAR(25) NOT NULL,
+    PRIMARY KEY (identificador),
+    FOREIGN KEY (codigo_producto_bodega) REFERENCES manejoProductos.asingacionBodega(identificador),
+    FOREIGN KEY (id_empleado) REFERENCES manejoEmpleados.Empleados(identificador)
 );
 ----------------------------------------------------------------------------
 ----------------------------------------------------------------------------

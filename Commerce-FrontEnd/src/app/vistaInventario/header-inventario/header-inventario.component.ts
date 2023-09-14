@@ -8,7 +8,7 @@ import { SesionServicioService } from 'src/app/services/sesion-servicio.service'
   styleUrls: ['./header-inventario.component.css']
 })
 export class HeaderInventarioComponent implements OnInit{
-
+  nombreUser: any
 
   constructor(private sesionActiva: SesionServicioService, private router: Router ) {}
 
@@ -17,13 +17,24 @@ export class HeaderInventarioComponent implements OnInit{
     this.router.navigate(['./inicio'])
   }
 
+  general() {
+    this.router.navigate(['generalInventario'])
+  }
+
   manejoProducto() {
     this.router.navigate(['generalInventario/manejoProducto'])
 
   }
 
+  vistaProductoInventario() {
+    this.router.navigate(['generalInventario/vistaProductoInventarioBodega'])
+
+  }
+
+
 
   ngOnInit(): void {
-    throw new Error('Method not implemented.');
+    this.nombreUser=this.sesionActiva.getUsuario()?.nombre
+
   }
 }

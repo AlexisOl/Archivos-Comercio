@@ -29,6 +29,10 @@ export class BodegaServicioService {
     return this.http.get<producto>(this.URL+'buscarProducto?identificador='+id)
 
   }
+  // select de todos los elementos de producto (general BODEGA)
+  public obtenerProductos(): Observable<producto> {
+    return this.http.get<producto>(this.URL+'verProducto');
+  }
 
 
   // ingreso de elementos a tienda:

@@ -36,16 +36,21 @@ export class ProductoSucursalComponent implements OnInit{
 
     this.sesionBodega.ingresoElementosTienda(nuevoProducto).subscribe(
       (producto: asigancionProductos) => {
-        if (producto.id_producto === undefined || producto.id_sucursal === undefined) {
-          console.log('No se pudo ingresar Correctamente', 'error');
-        } else {
+
+       console.log(producto.id);
+
+       console.log(producto.cantidad);
+
+        if (producto && producto.id_producto !== undefined && producto.id_sucursal !== undefined) {
           // El producto se ingresó con éxito, puedes realizar acciones adicionales aquí
           console.log('Ingreso exitoso');
-          console.log(producto.cantidad);
 
           // redirección y fin de proceso
+        } else {
+          console.log('No se pudo ingresar Correctamente', 'error');
         }
       },
+
       (error: any) => {
         console.log(error);
       }
@@ -72,6 +77,6 @@ export class ProductoSucursalComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    throw new Error('Method not implemented.');
+
   }
 }

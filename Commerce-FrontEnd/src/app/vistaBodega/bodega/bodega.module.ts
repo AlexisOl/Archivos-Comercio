@@ -6,6 +6,7 @@ import { AuthGuard } from 'src/app/utils/auth.guard';
 import { GeneralInventarioComponent } from 'src/app/vistaInventario/general-inventario/general-inventario.component';
 import { IngresoProductosComponent } from '../ingreso-productos/ingreso-productos.component';
 import { ProductoSucursalComponent } from '../producto-sucursal/producto-sucursal.component';
+import { VerProductosComponent } from '../ver-productos/ver-productos.component';
 
 const routes: Routes = [
   {path: '',
@@ -16,6 +17,9 @@ const routes: Routes = [
   canActivate: [AuthGuard]},
   {path: 'productoaSucursal',
   component:ProductoSucursalComponent,
+  canActivate:[AuthGuard]},
+  {path: 'vistaProductos',
+  component:VerProductosComponent,
   canActivate:[AuthGuard]}
 
 ]
