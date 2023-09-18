@@ -6,6 +6,8 @@ const getUsuarios = async(req, res) => {
 
 };
 
+
 module.exports={
     getUsuarios
+
 };

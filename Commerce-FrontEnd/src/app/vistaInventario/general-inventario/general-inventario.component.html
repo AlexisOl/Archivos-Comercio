@@ -1,1 +1,25 @@
 <app-header-inventario></app-header-inventario>
+<!--pagina de informacion general del inventario-->
+
+
+<div class="container">
+  <hr />
+</div>
+<div class="col-md-12">
+  <table class="table table-bordered  table-striped table-hover">
+      <thead class="bg-primary text-white">
+          <th>Identificador</th>
+          <th>Nombre Usuario</th>
+          <th>Area</th>
+          <th>Sucursal de Trabajo</th>
+      </thead>
+      <tr >
+        <td>{{usuario.identificador}}</td>
+        <td><span>{{usuario.nombre}}</span></td>
+        <td><span>{{usuario.id_rol}}</span></td>
+        <td><span>{{usuario.id_sucursal}}</span></td>
+      </tr>
+
+
+  </table>
+</div>

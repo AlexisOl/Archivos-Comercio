@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { InventarioServicioService } from 'src/app/services/inventario-servicio.service';
+import { SesionServicioService } from 'src/app/services/sesion-servicio.service';
 
 @Component({
   selector: 'app-vista-prod-bodega',
@@ -9,10 +10,10 @@ import { InventarioServicioService } from 'src/app/services/inventario-servicio.
 export class VistaProdBodegaComponent implements OnInit{
 
   public valor: any;
-  constructor(private inventarioSesion: InventarioServicioService){}
+  constructor(private inventarioSesion: InventarioServicioService, private sesion: SesionServicioService){}
 
   verBodega() {
-    this.inventarioSesion.verElementosBodega().subscribe(
+    this.inventarioSesion.verElementosBodega(String(this.sesion.getUsuario()?.id_sucursal)).subscribe(
       valores => {
         this.valor = valores;
         console.log('ingrso exitoso');

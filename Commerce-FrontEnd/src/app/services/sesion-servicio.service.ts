@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, map } from 'rxjs';
@@ -13,7 +14,7 @@ export class SesionServicioService {
   user$ = this.user.asObservable();
   isLoggedIn$: Observable<boolean> = this.user$.pipe(map(Boolean));
 
-  constructor(private router: Router) {
+  constructor(private router: Router,private http:HttpClient) {
     // Al inicializar el servicio, verifica si hay un usuario en LocalStorage y cárgalo si es así.
     const usuarioString = localStorage.getItem('usuario');
     if (usuarioString) {
@@ -41,4 +42,7 @@ export class SesionServicioService {
   isAuthenticated(): boolean {
     return !!this.getUsuario();
   }
+
+
+
 }

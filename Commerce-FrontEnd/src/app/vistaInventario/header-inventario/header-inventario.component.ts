@@ -30,7 +30,11 @@ export class HeaderInventarioComponent implements OnInit{
     this.router.navigate(['generalInventario/vistaProductoInventarioBodega'])
 
   }
+  DevolucionProductoInventario() {
+    this.router.navigate(['generalInventario/devolucionBodega'])
 
+  }
+//
 
 
   ngOnInit(): void {

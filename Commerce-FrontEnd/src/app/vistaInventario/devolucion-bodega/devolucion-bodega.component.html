@@ -1,11 +1,13 @@
 <app-header-inventario></app-header-inventario>
 
+<!--form para devolucion-->
+
 <div class="container">
   <form class="form-container" #f = "ngForm">
     <mat-card class="example-card">
       <mat-card-header>
         <mat-card-title>Informacion</mat-card-title>
-        <mat-card-subtitle>Ingreso a Sucursal</mat-card-subtitle>
+        <mat-card-subtitle>Devolucion a Bodega</mat-card-subtitle>
       </mat-card-header>
       <mat-card-content>
         <hr />
@@ -15,7 +17,6 @@
               Identificador de empleado
             </label>
             <input
-              value={{usuarioGeneral.identificador}}
               type="text"
               class="form-control mt-2"
               placeholder="identificador de Sucursal"
@@ -57,39 +58,33 @@
         <hr/>
         <div class="row">
           <div class="col-md-12">
+            <mat-card class="example-result-card">
+              <mat-card-content>
+                <h2>Result</h2>
 
-            <label for="nombre" class="mt-5 d-flex justify-content-center">
-              Cantidad de Productos
-            </label>
-            <input
-              type="number"
-              class="form-control mt-2"
-              placeholder="cantidad de Producto"
-              name="cantidad"
-              [(ngModel)]='cantidadProducto'
-
-
-              required
-            />
-            <label for="nombre" class="mt-5 d-flex justify-content-center">
-              Pasillo del Producto
-            </label>
-            <input
-              type="text"
-              class="form-control mt-2"
-              placeholder="Nombre de Pasillo"
-              name="pasillo"
-              [(ngModel)]='pasilloProducto'
-
-              required
-            />
+                <div class="example-label-container">
+                  <label id="example-name-label" class="example-name-label">Value</label>
+                  <label class="example-value-label">{{slider.value}}</label>
+                </div>
+                <mat-slider
+                    class="example-margin"
+                    [disabled]="disabled"
+                    [max]="max"
+                    [min]="min"
+                    [step]="step"
+                    [discrete]="thumbLabel"
+                    [showTickMarks]="showTicks">
+                  <input matSliderThumb [(ngModel)]="value" #slider>
+                </mat-slider>
+              </mat-card-content>
+            </mat-card>
           </div>
         </div>
       </mat-card-content>
       <mat-card-actions>
         <div class="row">
           <div class="col-md-12">
-        <button mat-raised-button  color="primary" (click)="ingresoInvetario()" >Ingreso</button>
+        <button mat-raised-button  color="primary" (click)="devolucionProducto()" >Devolucion</button>
         <button mat-raised-button  color="primary" (click)="buscarProducto()"  >Buscar Productos</button>
           </div>
         </div>

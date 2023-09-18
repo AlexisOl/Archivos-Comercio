@@ -21,7 +21,10 @@ export class LoginIngresoService {
     return this.http.get<usuarios>(this.URL+'user-sesion?nombre='+usuario.nombre+"&password="+usuario.password)
 
   }
-  public setUsuario() {
+  //buscar id usuario
+  public getId(nombre:string, id_sucursal : string): Observable<usuarios> {
+    return this.http.get<usuarios>(this.URL+'userId-sesion?nombre='+nombre+"&id_sucursal="+id_sucursal);
 
   }
+
 }

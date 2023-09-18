@@ -40,6 +40,8 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { VerProductosComponent } from './vistaBodega/ver-productos/ver-productos.component';
 import { VistaProdBodegaComponent } from './vistaInventario/vista-prod-bodega/vista-prod-bodega.component';
+import { DevolucionBodegaComponent } from './vistaInventario/devolucion-bodega/devolucion-bodega.component';
+import {MatSliderModule} from '@angular/material/slider';
 @NgModule({
   declarations: [
     AppComponent,
@@ -62,6 +64,7 @@ import { VistaProdBodegaComponent } from './vistaInventario/vista-prod-bodega/vi
     ProductoSucursalComponent,
     VerProductosComponent,
     VistaProdBodegaComponent,
+    DevolucionBodegaComponent,
   ],
   imports: [
 
@@ -84,7 +87,8 @@ import { VistaProdBodegaComponent } from './vistaInventario/vista-prod-bodega/vi
     MatDatepickerModule,
     MatOptionModule,
     MatNativeDateModule,
-    MatSelectModule
+    MatSelectModule,
+    MatSliderModule
   ],
   providers: [],
   bootstrap: [AppComponent]
