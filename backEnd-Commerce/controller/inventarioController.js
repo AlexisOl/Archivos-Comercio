@@ -46,7 +46,7 @@ const buscaCantidadProdInventario = async (req, res) => {
     );
     if (result.rows.length === 1) {
       res.status(200).json(result.rows[0]);
-      console.log("cantidad inventario"+result.rows[0].cantidadgeneral);
+      console.log("cantidad inventario" + result.rows[0].cantidadgeneral);
     } else {
       res.status(400).json({ error: "no existe el producto" });
     }
@@ -177,9 +177,46 @@ async function eliminarBodega(
   }
 }
 
+const devolucionBodega = async (req, res) => {
+  const { cantidad, id, idSucursal , maximo} = req.body;
+  try {
+    // Verificar si ya existe una asignación para el mismo producto en la misma sucursal
+    const enSucursal = await pool.query(
+      "SELECT * FROM manejoproductos.asingacionbodega WHERE id_sucursal = $1 AND identificador = $2 ",
+      [idSucursal, id]
+    );
+
+    if (enSucursal.rows.length > 0) {
+      const cantidadBodega = await pool.query(
+        "SELECT * FROM manejoproductos.asingacionbodega WHERE identificador = $1",
+        [id]
+      );
+    
+      const cantidaddeBodega = parseInt(cantidadBodega.rows[0].cantidad);
+      const actualizacionBodega = cantidaddeBodega+cantidad
+      //para el inventario
+       await pool.query(
+        "UPDATE manejoinventario.registroinventariobodega SET cantidadgeneral = $1 WHERE codigo_producto_bodega = $2",
+        [maximo-cantidad, id]
+      );
+      // para la bodega
+      await pool.query(
+        "UPDATE manejoproductos.asingacionbodega SET cantidad = $1 WHERE identificador = $2",
+        [actualizacionBodega, id]
+      );
+    }
+
+    res.status(200).json({ message: "Ingreso de inventario exitoso" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Error al ingresar el producto." });
+  }
+};
+
 module.exports = {
   mostrarBodega: mostrarBodega,
   buscarProductoBodega: buscarProductoBodega,
   ingresoElementos: ingresoElementos,
-  buscaCantidadProdInventario:buscaCantidadProdInventario
+  buscaCantidadProdInventario: buscaCantidadProdInventario,
+  devolucionBodega:devolucionBodega
 };

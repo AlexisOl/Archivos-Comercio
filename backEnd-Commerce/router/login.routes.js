@@ -20,6 +20,7 @@ router.get('/verBodega', inventarioController.mostrarBodega)
 router.get('/buscarProductoBodega', inventarioController.buscarProductoBodega)
 router.post('/ingresoInvetario', inventarioController.ingresoElementos)
 router.get('/cantidadenInventario', inventarioController.buscaCantidadProdInventario)
+router.post('/devolucionCantidad', inventarioController.devolucionBodega)
 //
 
 

@@ -39,4 +39,11 @@ export class InventarioServicioService {
       return this.http.get<productoInventario>(this.URL+'cantidadenInventario?identificador='+id);
     }
 
+    //deovulcion de los productos de inventario a bodega
+    public devolucionProductos(cantidad:number, id: number, idSucursal: string|undefined, maximo:number):Observable<asigancionProductos> {
+      const requestBody = {cantidad, id, idSucursal, maximo};
+
+      return this.http.post<asigancionProductos>(this.URL+'devolucionCantidad', requestBody)
+    }
+
 }

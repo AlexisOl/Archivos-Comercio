@@ -74,7 +74,8 @@
                     [step]="step"
                     [discrete]="thumbLabel"
                     [showTickMarks]="showTicks">
-                  <input matSliderThumb [(ngModel)]="value" #slider>
+                    <input matSliderThumb [(ngModel)]="Cantidad" #slider name="Cantidad">
+
                 </mat-slider>
               </mat-card-content>
             </mat-card>
@@ -86,7 +87,9 @@
           <div class="col-md-12">
         <button mat-raised-button  color="primary" (click)="devolucionProducto()" >Devolucion</button>
         <button mat-raised-button  color="primary" (click)="buscarProducto()"  >Buscar Productos</button>
-          </div>
+
+        <button mat-raised-button color="secondary" (click)="generarDevolucion()">devolucion</button>
+      </div>
         </div>
       </mat-card-actions>
     </mat-card>
