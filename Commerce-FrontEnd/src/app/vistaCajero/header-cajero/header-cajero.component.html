@@ -1,29 +1,13 @@
 <mat-toolbar color="primary">
-  <div class="dropdown">
-    <button mat-button [matMenuTriggerFor]="menuNormal">
-      <mat-icon>menu</mat-icon>
-    </button>
-    <mat-menu #menuNormal="matMenu">
-      <button mat-menu-item >Ver Carrito</button>
-      <button mat-menu-item>Ver Historial de Compras</button>
-    </mat-menu>
-  </div>
-
-  <button >
+  <button (click)="regresoGeneral()" >
     <span>Cajero - General</span>
   </button>
   <span class="example-spacer"></span>
   <!--serie de botones-->
-  <button >Compras</button>
-  <button
-    mat-icon-button
-    class="example-icon favorite-icon"
-    aria-label="Example icon-button with heart icon"
-  >
-    <span matBadge="1" matBadgeColor="accent">
-      <mat-icon matBadge="1" matBadgeColor="warn">shopping_cart</mat-icon>
-    </span>
-  </button>
+  <button (click)="irCompras()">Compras</button>
+  <span class="example-spacer"></span>
+  <button (click)="vistaProductos()">Ver Productos</button>
+  <span class="example-spacer"></span>
 
   <button mat-button [matMenuTriggerFor]="fileMenu">Ingreso Usuario</button>
   <mat-menu #fileMenu="matMenu">

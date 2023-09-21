@@ -12,13 +12,25 @@ export class HeaderCajeroComponent implements OnInit{
 
   constructor(private sesionActiva: SesionServicioService, private router: Router ) {}
 
+  regresoGeneral(){
+    this.router.navigate(['generalCajero'])
+  }
+
    cerrarSesion() {
     this.sesionActiva.eliminarUsuario();
     this.router.navigate(['/inicio'])
   }
 
+  irCompras(){
+    this.router.navigate(['generalCajero/compras'])
+  }
+
+  vistaProductos(){
+    this.router.navigate(['generalCajero/verProducto'])
+
+  }
+
 
   ngOnInit(): void {
-    throw new Error('Method not implemented.');
   }
 }

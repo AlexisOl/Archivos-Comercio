@@ -27,19 +27,21 @@
   <thead>
     <tr>
       <th>Identificador</th>
-      <th>Cantidad (En Bodega)</th>
-      <th>Fecha</th>
-      <th>Identificador de Sucursal</th>
-      <th>Identificador de Producto</th>
+      <th>Codigo (En Bodega)</th>
+      <th>Estado de Uso</th>
+      <th>Cantidad General</th>
+      <th>Pasillo</th>
+      <th>Identificador de Empleado</th>
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let producto of valor">
+    <tr *ngFor="let producto of valorInventario">
       <td>{{ producto.identificador }}</td> <!-- Mostrar el identificador aquí -->
-      <td>{{ producto.cantidad }}</td>
-      <td>{{ producto.fecha_asignacion }}</td>
-      <td>{{ producto.id_sucursal }}</td>
-      <td>{{ producto.id_producto }}</td>
+      <td>{{ producto.codigo_producto_bodega }}</td>
+      <td>{{ producto.estado_uso }}</td>
+      <td>{{ producto.cantidadgeneral }}</td>
+      <td>{{ producto.pasillo }}</td>
+      <td>{{ producto.id_empleado }}</td>
     </tr>
   </tbody>
 </table>

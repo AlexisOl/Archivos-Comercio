@@ -42,6 +42,9 @@ import { VerProductosComponent } from './vistaBodega/ver-productos/ver-productos
 import { VistaProdBodegaComponent } from './vistaInventario/vista-prod-bodega/vista-prod-bodega.component';
 import { DevolucionBodegaComponent } from './vistaInventario/devolucion-bodega/devolucion-bodega.component';
 import {MatSliderModule} from '@angular/material/slider';
+import { VistacomprasComponent } from './vistaCajero/vistacompras/vistacompras.component';
+import { VerProductosSucursalComponent } from './vistaCajero/ver-productos-sucursal/ver-productos-sucursal.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -65,6 +68,8 @@ import {MatSliderModule} from '@angular/material/slider';
     VerProductosComponent,
     VistaProdBodegaComponent,
     DevolucionBodegaComponent,
+    VistacomprasComponent,
+    VerProductosSucursalComponent,
   ],
   imports: [
 

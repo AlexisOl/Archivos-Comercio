@@ -1,0 +1,47 @@
+<app-header-cajero></app-header-cajero>
+<label>Ingreso de Informacion de Usuario</label>
+
+<button class="btn btn-primary">Ver Usuario</button>
+<hr>
+
+<label>Seleccion de Objetos</label>
+<hr>
+<mat-form-field>
+  <mat-label>Toppings</mat-label>
+  <mat-select [formControl]="toppings" multiple>
+    <mat-select-trigger>
+      {{toppings.value?.[0] || ''}}
+      <span *ngIf="(toppings.value?.length || 0) > 1" class="example-additional-selection">
+        (+{{(toppings.value?.length || 0) - 1}} {{toppings.value?.length === 2 ? 'other' : 'others'}})
+      </span>
+    </mat-select-trigger>
+    <mat-option *ngFor="let topping of toppingList" [value]="topping">{{topping}}</mat-option>
+  </mat-select>
+</mat-form-field>
+<table class="tabla table table-bordered table-striped">
+  <thead>
+    <tr>
+      <th>Identificador</th>
+      <th>Cantidad (En Bodega)</th>
+      <th>Fecha</th>
+      <th>Identificador de Sucursal</th>
+      <th>Identificador de Producto</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><input type="text"></td> <!-- Mostrar el identificador aquí -->
+      <td> producto.cantidad</td>
+      <td> producto.fecha_asignacion </td>
+      <td> producto.id_sucursal </td>
+      <td> producto.id_producto </td>
+    </tr>
+    <tr *ngFor="let producto of objetosLista">
+      <td><input type="text"></td> <!-- Mostrar el identificador aquí -->
+      <td>{{ producto }}</td> <!-- Mostrar el identificador aquí -->
+    </tr>
+  </tbody>
+</table>
+
+
+<!--TABLA FINAL PARA LA CANTIDAD TOTAL-->

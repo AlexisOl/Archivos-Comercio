@@ -10,6 +10,7 @@ import { SesionServicioService } from 'src/app/services/sesion-servicio.service'
 export class VistaProdBodegaComponent implements OnInit{
 
   public valor: any;
+  public valorInventario: any;
   constructor(private inventarioSesion: InventarioServicioService, private sesion: SesionServicioService){}
 
   verBodega() {
@@ -24,6 +25,18 @@ export class VistaProdBodegaComponent implements OnInit{
       }
     )
   }
-  ngOnInit(): void {this.verBodega();}
+
+  verInventario() {
+    this.inventarioSesion.verElementoInventario().subscribe(
+      valores => {
+        this.valorInventario = valores;
+      },
+      (error) => {
+        console.error('error', error);
+
+      }
+    )
+  }
+  ngOnInit(): void {this.verBodega(); this.verInventario();}
 }
 

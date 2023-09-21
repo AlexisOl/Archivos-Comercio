@@ -20,7 +20,10 @@ export class InventarioServicioService {
       return this.http.get<asigancionProductos>(this.URL+'verBodega?id_sucursal='+id);
 
     }
-
+    // vista de elementos de inventario ]
+    public verElementoInventario():Observable<productoInventario> {
+      return this.http.get<productoInventario>(this.URL+'verInventario')
+    }
     // ingreso de elmemento a inventario (tienda)
     public ingresoElementos(producto: productoInventario, idSucursal: string|undefined):Observable<productoInventario>{
       const requestBody = { producto, idSucursal };
