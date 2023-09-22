@@ -1,20 +1,23 @@
-<app-header-cajero/>
+<app-header-cajero />
 
-  <!--VISTA DE LOS PRODUCTOS-->
+<!--VISTA DE LOS PRODUCTOS-->
 <mat-drawer-container
-[autosize]="true"
-class="min-h-full max-w-7xl mx-auto border-x">
+  [autosize]="true"
+  class="min-h-full max-w-7xl mx-auto border-x"
+>
   <mat-drawer mode="side" opened class="p-6">
     <div>Busquedas Especificas</div>
   </mat-drawer>
-</mat-drawer-container>
-  <div class="container">
-    <div class="row">
-      <div class="cl-md-10">
-        <div class="titulo">
-          <h1>Listado de Productos</h1>
-          <hr/>
-        </div>
+  <mat-drawer-content class="p-6">
+    <div class="container">
+      <div class="row">
+        <div class="cl-md-10"></div>
       </div>
     </div>
-  </div>
+    <mat-grid-list gutterSize="16" [cols]="cols" [rowHeight]="rowHeight">
+      <mat-grid-tile>
+        <app-elementos-card class="card-grande"></app-elementos-card>
+      </mat-grid-tile>
+    </mat-grid-list>
+  </mat-drawer-content>
+</mat-drawer-container>

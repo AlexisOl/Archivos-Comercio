@@ -1,7 +1,99 @@
 <app-header-cajero></app-header-cajero>
 <label>Ingreso de Informacion de Usuario</label>
 
-<button class="btn btn-primary">Ver Usuario</button>
+
+
+<div class="container">
+  <form class="form-container" #f = "ngForm">
+    <mat-card class="example-card">
+      <mat-card-header>
+        <mat-card-title>Informacion</mat-card-title>
+        <mat-card-subtitle>Ingreso de Ventas</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <hr />
+        <div class="row">
+          <div class="col-md-6">
+            <label for="nombre" class="mt-5 d-flex justify-content-center">
+              Identificador de empleado
+            </label>
+            <input
+              type="text"
+              class="form-control mt-2"
+              placeholder="identificador de Sucursal"
+              name="Sucursal"
+              readonly
+            />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <label for="nombre" class="mt-5 d-flex justify-content-center">
+              Identificador de Producto (EN Bodega)
+            </label>
+            <input
+            type="number"
+            class="form-control mt-2"
+            placeholder="Código de Producto en Bodega"
+            name="ProductoBodega"
+          />
+
+          </div>
+          <div class="col-md-6">
+            <label for="nombre" class="mt-5 d-flex justify-content-center">
+              Identificador de Producto
+            </label>
+            <input
+              type="text"
+              class="form-control mt-2"
+              placeholder="Nombre de Producto"
+              name="nombre"
+
+              readonly
+            />
+          </div>
+        </div>
+        <hr/>
+        <div class="row">
+          <div class="col-md-12">
+
+            <label for="nombre" class="mt-5 d-flex justify-content-center">
+              Cantidad de Productos
+            </label>
+            <input
+              type="number"
+              class="form-control mt-2"
+              placeholder="cantidad de Producto"
+              name="cantidad"
+
+
+              required
+            />
+            <label for="nombre" class="mt-5 d-flex justify-content-center">
+              Pasillo del Producto
+            </label>
+            <input
+              type="text"
+              class="form-control mt-2"
+              placeholder="Nombre de Pasillo"
+              name="pasillo"
+
+              required
+            />
+          </div>
+        </div>
+      </mat-card-content>
+      <mat-card-actions>
+        <div class="row">
+          <div class="col-md-12">
+        <button mat-raised-button  color="primary"  >Ingreso</button>
+        <button mat-raised-button  color="primary"  >Buscar Productos</button>
+          </div>
+        </div>
+      </mat-card-actions>
+    </mat-card>
+  </form>
+</div>
 <hr>
 
 <label>Seleccion de Objetos</label>

@@ -44,7 +44,8 @@ import { DevolucionBodegaComponent } from './vistaInventario/devolucion-bodega/d
 import {MatSliderModule} from '@angular/material/slider';
 import { VistacomprasComponent } from './vistaCajero/vistacompras/vistacompras.component';
 import { VerProductosSucursalComponent } from './vistaCajero/ver-productos-sucursal/ver-productos-sucursal.component';
-
+import {MatGridListModule} from '@angular/material/grid-list';
+import { ElementosCardComponent } from './vistaCajero/elementos-card/elementos-card.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -70,6 +71,7 @@ import { VerProductosSucursalComponent } from './vistaCajero/ver-productos-sucur
     DevolucionBodegaComponent,
     VistacomprasComponent,
     VerProductosSucursalComponent,
+    ElementosCardComponent,
   ],
   imports: [
 
@@ -93,7 +95,8 @@ import { VerProductosSucursalComponent } from './vistaCajero/ver-productos-sucur
     MatOptionModule,
     MatNativeDateModule,
     MatSelectModule,
-    MatSliderModule
+    MatSliderModule,
+    MatGridListModule
   ],
   providers: [],
   bootstrap: [AppComponent]
