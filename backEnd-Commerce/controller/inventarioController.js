@@ -14,6 +14,23 @@ const mostrarBodega = async (req, res) => {
     res.status(500).json({ error: "error de busqueda" });
   }
 };
+//-------------------------------------------------------------------------------------------------
+const mostrarInventario = async(req, res) => {
+  //const id = req.query.identificadorl
+
+  try{
+    const result = await pool.query(
+      "SELECT * FROM manejoinventario.registroinventariobodega ORDER BY identificador ASC;"
+    )
+    res.status(200).json(result.rows);
+  } catch(error){
+    res.status(500).json({error:'error de busqueda'})
+  }
+}
+
+
+
+//-------------------------------------------------------------------------------------------------
 
 const buscarProductoBodega = async (req, res) => {
   const id = req.query.identificador; // Cambia req.body.id a req.query.identificador
@@ -215,6 +232,7 @@ const devolucionBodega = async (req, res) => {
 
 module.exports = {
   mostrarBodega: mostrarBodega,
+  mostrarInventario: mostrarInventario,
   buscarProductoBodega: buscarProductoBodega,
   ingresoElementos: ingresoElementos,
   buscaCantidadProdInventario: buscaCantidadProdInventario,

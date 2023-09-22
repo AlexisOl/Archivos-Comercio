@@ -8,6 +8,7 @@ CREATE DATABASE chapin_market;
 CREATE SCHEMA manejoGeneral;
 -- schema para empleados
 CREATE SCHEMA manejoEmpleados;
+-- schema para ventas
 CREATE SCHEMA manejoVentas;
 -- schema como para bodega
 CREATE SCHEMA manejoProductos;
@@ -84,54 +85,68 @@ CREATE TABLE manejoInventario.registroInventarioBodega(
 ----------------------------------------------------------------------------
 ----------------------------------------------------------------------------
 ----------------------------------------------------------------------------
---tabla de clientes:
+
+----- TABLA PARA LAS TARJETAS
+---- cantidad base es de 200 Q
+CREATE TABLE manejoGeneral.tarjetas (
+    identificador SERIAL NOT NULL,
+    tipo VARCHAR(50) NOT NULL,
+    cantidadPuntos int NOT NULL,
+    cantidadBase int not null,
+    rango_min int not NULL,
+    rango_max int NOT NULL,
+    PRIMARY KEY(identificador)
+);
+--tabla de clientes: descuentos null, ya que no es necesario que la pida 
 CREATE TABLE manejoGeneral.Clientes (
-    identificador VARCHAR(25) NOT NULL,
+    identificador SERIAL NOT NULL,
     nombre VARCHAR(50) NOT NULL,
-    dpi INT NOT NULL,
     nit VARCHAR(15) NOT NULL,
-    descuentos INT NOT NULL,
+    descuentos INT,
+    cantidadGastado INT,
+    PRIMARY KEY(identificador),
+    FOREIGN KEY (descuentos) REFERENCES manejoGeneral.tarjetas(identificador)
+);
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+
+
+
+-- tabla para las facturas
+CREATE TABLE manejoVentas.facturas (
+    identificador SERIAL NOT NULL,
+    nit_cliente VARCHAR(15) NOT NULL,
+    nombre_cliente VARCHAR(15),
+    total_global DECIMAL(10,2) ,
+    total_Descontado DECIMAL(10,2) ,
+    fecha_facturacion DATE NOT NULL,
     PRIMARY KEY(identificador)
 );
 
 
+-- TABLA PARA EL MANEJO DE DETALLE DE FACTURA, ES LA QUE LE SIGUE A FACTURA EN CREAR
+CREATE TABLE manejoVentas.detallefacturas (
+    identificador SERIAL NOT NULL,
+    identificadorFactura VARCHAR(25) NOT NULL,
+    identificador_producto_Inventario VARCHAR(25) NOT NULL,
+    nombre_producto VARCHAR(100) NOT NULL,
+    cantidad INT NOT NULL,
+    precio_especifico INT NOT NULL,
+    PRIMARY KEY(identificador)
+
+);
+
+----------------------------------------------------------------------------
 --
 --schema de registroVentas
-CREATE TABLE registroVentas.Ventas (
-    identificador VARCHAR(25) NOT NULL,
+CREATE TABLE manejoVentas.Ventas (
+    identificador SERIAL NOT NULL,
     identificador_empleado VARCHAR(25) NOT NULL,
-    nit VARCHAR(25) NOT NULL,
-    fecha DATE NOT NULL,
+    identificador_factura INT NOT NULL,
     PRIMARY KEY(identificador),
     FOREIGN KEY (identificador_empleado) REFERENCES registroformacion.Empleados(identificador)
+    FOREIGN KEY (identificador_factura) REFERENCES manejoVentas.facturas(identificador)
 );
-
--- tabla para las facturas
-CREATE TABLE .facturas (
-    identificador VARCHAR(25) NOT NULL,
-    nit_cliente VARCHAR(15) NOT NULL,
-    nombre_cliente VARCHAR(15),
-    total_parcial DECIMAL(10,2) NOT NULL,
-    total_global DECIMAL(10,2) NOT NULL,
-    listado
-);
-
-
---tabla para las sucursales
-CREATE TABLE registroVentas.asignacion_bodega (
- identificador VARCHAR(25) NOT NULL,
- identificador_sucursal VARCHAR(25) NOT NULL,
- identificador_producto VARCHAR(25) NOT NULL,
- fecha_ingreso DATE NOT NULL,
- estado_uso VARCHAR(70) NOT NULL,
- cantidad_almacenado INT NOT NULL,
- PRIMARY KEY(identificador)
- FOREIGN KEY(identificador_sucursal) REFERENCES re
- FOREIGN KEY(identificador_producto) REFERENCES re
-);
-
-
-
 
 
 

@@ -17,6 +17,8 @@ router.get('/verProducto', controllerProducto.busquedaGeneral)
 
 //rutas inventario
 router.get('/verBodega', inventarioController.mostrarBodega)
+router.get('/verInventario', inventarioController.mostrarInventario)
+
 router.get('/buscarProductoBodega', inventarioController.buscarProductoBodega)
 router.post('/ingresoInvetario', inventarioController.ingresoElementos)
 router.get('/cantidadenInventario', inventarioController.buscaCantidadProdInventario)
