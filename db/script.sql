@@ -172,3 +172,13 @@ INSERT INTO manejogeneral.sucursal VALUES
 
 
 
+
+INSERT INTO manejoGeneral.tarjetas VALUES 
+  ('diamanante','30', '200','30000' ,'1000000000'),
+  ('oro','20', '200','20000' ,'29999');
+
+
+
+INSERT INTO manejoGeneral.clientes VALUES 
+  ('jose','1234', '0','30000' ),
+  ('alexxus','2468', '100','20000');

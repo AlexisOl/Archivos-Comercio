@@ -30,6 +30,12 @@ export class HeaderCajeroComponent implements OnInit{
 
   }
 
+  modificarCliente(){
+    this.router.navigate(['generalCajero/modificarCliente'])
+
+  }
+
+
 
   ngOnInit(): void {
   }

@@ -2,6 +2,7 @@ const express = require('express')
 const controllerUser = require('../controller/userController')
 const controllerProducto = require('../controller/bodegaController');
 const inventarioController = require('../controller/inventarioController');
+const clienteController = require('../controller/clienteController');
 
 const router = express.Router();
 // obtener usuario en sesion
@@ -23,8 +24,11 @@ router.get('/buscarProductoBodega', inventarioController.buscarProductoBodega)
 router.post('/ingresoInvetario', inventarioController.ingresoElementos)
 router.get('/cantidadenInventario', inventarioController.buscaCantidadProdInventario)
 router.post('/devolucionCantidad', inventarioController.devolucionBodega)
-//
 
+
+
+//rutas de caja 
+router.get('/buscarClienteNit', clienteController.buscarCliente)
 
 
 module.exports = router;

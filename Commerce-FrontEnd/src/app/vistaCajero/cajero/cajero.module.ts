@@ -5,6 +5,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from 'src/app/utils/auth.guard';
 import { VistacomprasComponent } from '../vistacompras/vistacompras.component';
 import { VerProductosSucursalComponent } from '../ver-productos-sucursal/ver-productos-sucursal.component';
+import { ModificarClienteComponent } from '../modificar-cliente/modificar-cliente.component';
 
 const routes: Routes = [
   {path: '', component:GeneralCajeroComponent,
@@ -14,7 +15,11 @@ const routes: Routes = [
   canActivate: [AuthGuard]},
 
   {path: 'verProducto', component: VerProductosSucursalComponent,
+canActivate:[AuthGuard]},
+{path: 'modificarCliente', component: ModificarClienteComponent,
 canActivate:[AuthGuard]}
+
+
 
 
 ]

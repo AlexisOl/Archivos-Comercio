@@ -46,6 +46,10 @@ import { VistacomprasComponent } from './vistaCajero/vistacompras/vistacompras.c
 import { VerProductosSucursalComponent } from './vistaCajero/ver-productos-sucursal/ver-productos-sucursal.component';
 import {MatGridListModule} from '@angular/material/grid-list';
 import { ElementosCardComponent } from './vistaCajero/elementos-card/elementos-card.component';
+import {MatStepperModule} from '@angular/material/stepper';
+import { ModificarClienteComponent } from './vistaCajero/modificar-cliente/modificar-cliente.component';
+import {MatInputModule} from '@angular/material/input';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -72,6 +76,7 @@ import { ElementosCardComponent } from './vistaCajero/elementos-card/elementos-c
     VistacomprasComponent,
     VerProductosSucursalComponent,
     ElementosCardComponent,
+    ModificarClienteComponent,
   ],
   imports: [
 
@@ -96,7 +101,9 @@ import { ElementosCardComponent } from './vistaCajero/elementos-card/elementos-c
     MatNativeDateModule,
     MatSelectModule,
     MatSliderModule,
-    MatGridListModule
+    MatGridListModule,
+    MatStepperModule,
+    MatInputModule
   ],
   providers: [],
   bootstrap: [AppComponent]
