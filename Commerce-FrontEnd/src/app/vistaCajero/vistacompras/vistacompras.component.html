@@ -141,8 +141,12 @@
   <!------------------------------------------------------------------------------------------------------------------->
   <!------------------------------------------------------------------------------------------------------------------->
   <mat-step [stepControl]="secondFormGroup">
+
+
     <form [formGroup]="secondFormGroup">
+
       <ng-template matStepLabel>Seleccion de Productos</ng-template>
+      <button mat-raised-button color="primary" (click)="obtenerElementosdeInventario()">ver producto</button>
 
       <label>Seleccion de Objetos</label>
       <hr />
@@ -159,15 +163,20 @@
               {{ toppings.value?.length === 2 ? "other" : "others" }})
             </span>
           </mat-select-trigger>
-          <mat-option *ngFor="let topping of toppingList" [value]="topping">{{
-            topping
+          <mat-option *ngFor="let topping of listadoProductos" [value]="topping">{{
+            topping.nombre
           }}</mat-option>
         </mat-select>
       </mat-form-field>
+
+
+
       <table class="tabla table table-bordered table-striped">
         <thead>
           <tr>
-            <th>Identificador</th>
+            <th>Identificador (En Inventario)</th>
+            <th>Nombre</th>
+            <th>precio</th>
             <th>Cantidad (En Bodega)</th>
             <th>Fecha</th>
             <th>Identificador de Sucursal</th>
@@ -175,20 +184,24 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td><input type="text" /></td>
-            <!-- Mostrar el identificador aquí -->
-            <td>producto.cantidad</td>
-            <td>producto.fecha_asignacion</td>
-            <td>producto.id_sucursal</td>
-            <td>producto.id_producto</td>
-          </tr>
+
           <tr *ngFor="let producto of objetosLista">
             <td><input type="text" /></td>
             <!-- Mostrar el identificador aquí -->
-            <td>{{ producto }}</td>
+            <td>{{ producto.nombre }}</td>
+            <td>{{ producto.precio }}</td>
+            <td>{{ producto.cantidadgeneral }}</td>
+            <td>{{ producto.identificador }}</td>
             <!-- Mostrar el identificador aquí -->
           </tr>
+
+        <tr *ngFor="let valor of listadoInventario">
+          <!-- Mostrar el identificador aquí -->
+          <td>{{ valor.cantidadgeneral }}</td>
+          <td>{{ valor.pasillo }}</td>
+          <!-- Mostrar el identificador aquí -->
+        </tr>
+
         </tbody>
       </table>
       <!--TABLA FINAL PARA LA CANTIDAD TOTAL-->

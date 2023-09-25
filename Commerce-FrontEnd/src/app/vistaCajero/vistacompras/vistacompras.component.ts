@@ -6,7 +6,10 @@ import {
   Validators,
 } from '@angular/forms';
 import { CajeroServiceService } from 'src/app/services/cajero-service.service';
+import { SesionServicioService } from 'src/app/services/sesion-servicio.service';
 import { cliente } from 'src/modelos/cliente';
+import { producto } from 'src/modelos/producto';
+import { productoInventario } from 'src/modelos/productoInventario';
 
 @Component({
   selector: 'app-vistacompras',
@@ -16,7 +19,8 @@ import { cliente } from 'src/modelos/cliente';
 export class VistacomprasComponent implements OnInit {
   constructor(
     private form: FormBuilder,
-    private clieteServicio: CajeroServiceService
+    private clieteServicio: CajeroServiceService,
+    private servicio: SesionServicioService
   ) {}
   firstFormGroup: FormGroup = this.form.group({
     buscarCliente: [''],
@@ -35,23 +39,41 @@ export class VistacomprasComponent implements OnInit {
   noExiste!: boolean;
   buscandoCliente: boolean = false;
   //---------
-
+  // para la vista de los elementos de la tabla  ---- 2 evento
   objetosLista: any;
+  objestosListaInventario:any
+  listadoProductos: any;
+  listadoInventario:any;
+  listadoBodega:any;
+
   ngOnInit(): void {
     this.toppings.valueChanges.subscribe((selectedToppings) => {
-      this.objetosLista = selectedToppings;
+      if (selectedToppings === null) {
+        return; // Salir de la función si 'selectedToppings' es nulo
+      }
+
+      this.objetosLista = selectedToppings.slice(); // Copia el array existente
+
+      this.listadoBodega.forEach((element2: any) => {
+        this.listadoInventario.forEach((element3: any) => {
+          if (
+            this.objetosLista.some(
+              (element1: any) => element1.identificador === element2.id_producto
+            ) &&
+            element2.identificador === element3.codigo_producto_bodega
+          ) {
+            console.log("Elemento a agregar:", element3);
+            this.objetosLista.push(element3);
+          }
+        });
+      });
     });
   }
+
+
   toppings = new FormControl('');
 
-  toppingList: string[] = [
-    'Extra cheese',
-    'Mushroom',
-    'Onion',
-    'Pepperoni',
-    'Sausage',
-    'Tomato',
-  ];
+
 
   //funcion de mostrar
   mostrar() {
@@ -79,4 +101,22 @@ export class VistacomprasComponent implements OnInit {
     // Cierra la alerta utilizando la referencia al elemento DOM
     this.alertBox.nativeElement.style.display = 'none';
   }
+
+
+
+  ///---------------------------
+  // para obtener los productos de tienda (solo inventario)
+  obtenerElementosdeInventario(){
+    this.clieteServicio.buscarProductoBodega(this.servicio.getUsuario()?.id_sucursal).subscribe(
+      (result)=> {
+        this.listadoProductos = result.productos;
+        this.listadoInventario = result.inventario;
+        this.listadoBodega=result.bodega;
+
+      }
+    );
+
+  }
+
+
 }
