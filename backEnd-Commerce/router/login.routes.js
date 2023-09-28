@@ -30,6 +30,8 @@ router.post('/devolucionCantidad', inventarioController.devolucionBodega)
 //rutas de caja 
 router.get('/buscarClienteNit', clienteController.buscarCliente)
 router.get('/obtenerProductoCajero', clienteController.devolverProductoInventario)
+router.post('/ingresoCliente', clienteController.ingresoCliente)
+router.get('/obtenerTarjeta', clienteController.obtenerTarjeta)
 
 
 module.exports = router;

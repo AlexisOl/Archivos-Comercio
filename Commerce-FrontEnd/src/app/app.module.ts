@@ -49,7 +49,7 @@ import { ElementosCardComponent } from './vistaCajero/elementos-card/elementos-c
 import {MatStepperModule} from '@angular/material/stepper';
 import { ModificarClienteComponent } from './vistaCajero/modificar-cliente/modificar-cliente.component';
 import {MatInputModule} from '@angular/material/input';
-
+import {MatListModule} from '@angular/material/list';
 @NgModule({
   declarations: [
     AppComponent,
@@ -103,7 +103,8 @@ import {MatInputModule} from '@angular/material/input';
     MatSliderModule,
     MatGridListModule,
     MatStepperModule,
-    MatInputModule
+    MatInputModule,
+    MatListModule
   ],
   providers: [],
   bootstrap: [AppComponent]

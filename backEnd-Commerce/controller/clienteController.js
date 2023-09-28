@@ -122,8 +122,42 @@ const devolverProductoInventario = async(req, res) => {
     }
 };
 
+//funcion para el ingreso de clientes:
+
+const ingresoCliente = async(req, res) => {
+    const {id, nit, nombre, descuento, cantidadGastado} = req.body ;
+
+    try {
+     
+        await pool.query(
+            'INSERT INTO manejoGeneral.Clientes (nombre, nit, descuentos, cantidadGastado) VALUES ($1, $2, $3, $4)',
+            [ nombre, nit,null, cantidadGastado]
+        );
+    
+        res.status(200).json({ message: 'Asignación de cliente exitosa' });
+      } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error al asignar el cliente.' });
+      }
+
+};
 
 
+const obtenerTarjeta = async(req, res) => {
+    const { identificador } = req.query;
+    console.log("tarjeta id"+identificador);
+    try {
+        const valorTarjeta = await pool.query(
+            'SELECT * FROM manejoGeneral.tarjetas WHERE identificador = $1;',
+            [ identificador]
+        );
+        res.status(200).json(valorTarjeta.rows[0])
+    } catch(error) {
+        res.status(500).json({
+            error: 'no se proceso la tarjeta'
+        })
+    }
+};
 //funcion para casteos
 
 async function casteos(arrayValor, posicion, textoCadena){
@@ -141,5 +175,7 @@ async function casteos(arrayValor, posicion, textoCadena){
 module.exports= {
   
     buscarCliente: buscarCliente,
-    devolverProductoInventario: devolverProductoInventario
+    devolverProductoInventario: devolverProductoInventario,
+    ingresoCliente:ingresoCliente,
+    obtenerTarjeta: obtenerTarjeta
 };

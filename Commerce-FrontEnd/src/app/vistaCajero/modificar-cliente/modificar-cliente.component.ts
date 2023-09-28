@@ -7,6 +7,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./modificar-cliente.component.css']
 })
 export class ModificarClienteComponent {
+  minValue: number = 1; // Valor mínimo permitido
+  maxValue: number = 10; // Valor máximo permitido
+  cantidad: number = 1; // Valor inicial
   editable:boolean=true;
   constructor(private _formBuilder: FormBuilder) {}
   firstFormGroup: FormGroup = this._formBuilder.group({firstCtrl: ['']});

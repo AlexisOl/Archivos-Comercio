@@ -29,7 +29,7 @@
                     class="form-control mt-2"
                     placeholder="Nit de Cliente"
                     name="Sucursal"
-                    [(ngModel)]="buscarCliente"
+                    [(ngModel)]="nitCliente"
                   />
                 </div>
               </div>
@@ -59,7 +59,8 @@
                   role="alert"
                   #alertBox
                 >
-                  <strong>No se Encontro el Nit en tienda!</strong> INgrese al cliente en tieda, por favor.
+                  <strong>No se Encontro el Nit en tienda!</strong> INgrese al
+                  cliente en tieda, por favor.
                   <button
                     type="button"
                     class="close"
@@ -79,16 +80,21 @@
                       Nombre de Cliente
                     </label>
                     <input
-                      type="number"
+                      type="text"
                       class="form-control mt-2"
                       placeholder="Código de Producto en Bodega"
                       name="ProductoBodega"
+                      [(ngModel)]="nombreCliente"
                     />
                   </div>
                 </div>
                 <div class="row">
                   <div class="col-md-12">
-                    <button mat-raised-button color="primary">
+                    <button
+                      mat-raised-button
+                      color="primary"
+                      (click)="ingresarCliente()"
+                    >
                       Ingreso de Cliente
                     </button>
                   </div>
@@ -98,7 +104,7 @@
               <!--PARA LA VISUALIZCION DE INFO DE CLIENTES-->
               <ng-template #datosEncontrados>
                 <div class="alert alert-success" role="alert">
-                 Usuario Encontrado
+                  Usuario Encontrado
                 </div>
                 <div class="row">
                   <div class="col-md-6">
@@ -129,7 +135,9 @@
       <hr />
 
       <div>
-        <button mat-raised-button color="accent" matStepperNext>Siguiente</button>
+        <button mat-raised-button color="accent" matStepperNext>
+          Siguiente
+        </button>
       </div>
     </form>
   </mat-step>
@@ -141,12 +149,16 @@
   <!------------------------------------------------------------------------------------------------------------------->
   <!------------------------------------------------------------------------------------------------------------------->
   <mat-step [stepControl]="secondFormGroup">
-
-
-    <form [formGroup]="secondFormGroup">
-
+    <!--generar el form-->
+    <form class="form-container" #f="ngForm">
       <ng-template matStepLabel>Seleccion de Productos</ng-template>
-      <button mat-raised-button color="primary" (click)="obtenerElementosdeInventario()">ver producto</button>
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="obtenerElementosdeInventario()"
+      >
+        ver producto
+      </button>
 
       <label>Seleccion de Objetos</label>
       <hr />
@@ -163,13 +175,13 @@
               {{ toppings.value?.length === 2 ? "other" : "others" }})
             </span>
           </mat-select-trigger>
-          <mat-option *ngFor="let topping of listadoProductos" [value]="topping">{{
-            topping.nombre
-          }}</mat-option>
+          <mat-option
+            *ngFor="let topping of listadoProductos"
+            [value]="topping"
+            >{{ topping.nombre }}</mat-option
+          >
         </mat-select>
       </mat-form-field>
-
-
 
       <table class="tabla table table-bordered table-striped">
         <thead>
@@ -178,37 +190,58 @@
             <th>Nombre</th>
             <th>precio</th>
             <th>Cantidad (En Bodega)</th>
-            <th>Fecha</th>
-            <th>Identificador de Sucursal</th>
+            <th>pasillo</th>
             <th>Identificador de Producto</th>
+            <th>Cantidad de Producto a Vender</th>
           </tr>
         </thead>
         <tbody>
-
           <tr *ngFor="let producto of objetosLista">
-            <td><input type="text" /></td>
-            <!-- Mostrar el identificador aquí -->
-            <td>{{ producto.nombre }}</td>
-            <td>{{ producto.precio }}</td>
-            <td>{{ producto.cantidadgeneral }}</td>
-            <td>{{ producto.identificador }}</td>
-            <!-- Mostrar el identificador aquí -->
+            <!--solo muesntra
+            cuando el pasillo y cantidad (elementos de objeto
+            esten presentes)-->
+            <ng-container
+              *ngIf="producto.pasillo && producto.cantidadSolicitud"
+            >
+              <!-- Mostrar el identificador aquí -->
+              <td>{{ producto.identificadoInventario }}</td>
+              <td>{{ producto.nombreProducto }}</td>
+              <td>{{ producto.precioProducto }}</td>
+              <td>{{ producto.cantidadSolicitud }}</td>
+              <td>{{ producto.pasillo }}</td>
+              <td>{{ producto.identificadorProducto }}</td>
+              <td>
+                <input
+                  type="number"
+                  class="form-control mt-2"
+                  placeholder="Cantidad de Producto a Vender"
+                  name="cantidadProductoVenta"
+                  [value]="producto.cantidadaVender"
+                  [min]="1"
+                  [max]="producto.cantidadSolicitud"
+                  [(ngModel)]="producto.cantidadaVender"
+                />
+              </td>
+            </ng-container>
           </tr>
-
-        <tr *ngFor="let valor of listadoInventario">
-          <!-- Mostrar el identificador aquí -->
-          <td>{{ valor.cantidadgeneral }}</td>
-          <td>{{ valor.pasillo }}</td>
-          <!-- Mostrar el identificador aquí -->
-        </tr>
-
         </tbody>
       </table>
       <!--TABLA FINAL PARA LA CANTIDAD TOTAL-->
 
       <div>
-        <button mat-raised-button color="accent" matStepperPrevious>Regreso</button>
-        <button mat-raised-button color="accent" matStepperNext>Siguiente</button>
+        <button
+          mat-raised-button
+          color="accent"
+          (click)="imprimirValoresInput()"
+        >
+          ver datos
+        </button>
+        <button mat-raised-button color="accent" matStepperPrevious>
+          Regreso
+        </button>
+        <button mat-raised-button color="accent" matStepperNext>
+          Siguiente
+        </button>
       </div>
     </form>
   </mat-step>
@@ -220,50 +253,94 @@
   <!------------------------------------------------------------------------------------------------------------------->
   <!------------------------------------------------------------------------------------------------------------------->
   <!------------------------------------------------------------------------------------------------------------------->
+  <!-- para las venta final unir dos elementos----------------------------->
 
   <mat-step>
     <ng-template matStepLabel>Generacion Final de Venta</ng-template>
 
-    <label>Ingreso de Informacion de Usuario</label>
+    <label>Informacion de Cliente</label>
 
     <div class="container">
       <form class="form-container" #f="ngForm">
         <mat-card class="example-card">
           <mat-card-header>
             <mat-card-title>Informacion</mat-card-title>
-            <mat-card-subtitle>Ingreso de Ventas</mat-card-subtitle>
           </mat-card-header>
           <mat-card-content>
             <hr />
             <div class="row">
-              <div class="col-md-6">
+              <div class="col-md-4">
                 <label for="nombre" class="mt-5 d-flex justify-content-center">
-                  Identificador de empleado
-                </label>
-                <input
-                  type="text"
-                  class="form-control mt-2"
-                  placeholder="identificador de Sucursal"
-                  name="Sucursal"
-                  readonly
-                />
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-6">
-                <label for="nombre" class="mt-5 d-flex justify-content-center">
-                  Identificador de Producto (EN Bodega)
+                  Identificador de Cajero
                 </label>
                 <input
                   type="number"
                   class="form-control mt-2"
                   placeholder="Código de Producto en Bodega"
                   name="ProductoBodega"
+                  [value]="usuarioGeneral.identificador"
+                  [(ngModel)]="id_cajero"
+                  readonly
                 />
               </div>
-              <div class="col-md-6">
+              <div class="col-md-4">
                 <label for="nombre" class="mt-5 d-flex justify-content-center">
-                  Identificador de Producto
+                  Caja de Empleado
+                </label>
+                <input
+                  type="text"
+                  class="form-control mt-2"
+                  placeholder="Nombre de Producto"
+                  name="nombre"
+                  [value]="cajaCajero"
+                  [(ngModel)]="cajaCajero"
+                  readonly
+                />
+              </div>
+              <div class="col-md-4">
+                <label for="nombre" class="mt-5 d-flex justify-content-center">
+                  Fecha de Venta
+                </label>
+                <input
+                  type="date"
+                  class="form-control mt-2"
+                  placeholder="Nombre de Producto"
+                  name="nombre"
+                  readonly
+                />
+              </div>
+            </div>
+            <hr />
+            <div class="row">
+              <div class="col-md-4">
+                <label for="nombre" class="mt-5 d-flex justify-content-center">
+                  Nit de Cliente
+                </label>
+                <input
+                  type="text"
+                  class="form-control mt-2"
+                  placeholder="Código de Producto en Bodega"
+                  name="Nit de Cliente"
+                  [value]="nitCliente"
+                  readonly
+                />
+              </div>
+              <div class="col-md-4">
+                <label for="nombre" class="mt-5 d-flex justify-content-center">
+                  Nombre De Cliente
+                </label>
+                <input
+                  type="text"
+                  class="form-control mt-2"
+                  placeholder="Nombre de Producto"
+                  name="nombre"
+                  [value]="this.nombreGeneral"
+                  readonly
+                />
+              </div>
+              <div class="col-md-4">
+                <label for="nombre" class="mt-5 d-flex justify-content-center">
+                  Tarjeta de Cliente
                 </label>
                 <input
                   type="text"
@@ -275,26 +352,63 @@
               </div>
             </div>
             <hr />
+
+            <!--para ver general de productos-->
             <div class="row">
               <div class="col-md-12">
                 <label for="nombre" class="mt-5 d-flex justify-content-center">
                   Cantidad de Productos
                 </label>
+
+                <mat-list>
+                  <div mat-subheader>Ventas</div>
+                  <mat-list-item *ngFor="let valores of objetosLista">
+                    <ng-container
+                      *ngIf="valores.pasillo && valores.cantidadSolicitud"
+                    >
+                      <mat-icon matListItemIcon>local_grocery_store</mat-icon>
+
+                      <div matListItemTitle>
+                        {{ valores.nombreProducto}}
+                      </div>
+                      <div matListItemLine>
+                        {{ valores.identificadoInventario}}
+                      </div>
+                      <div matListItemLine>{{ valores.cantidadaVender}}</div>
+                      <div matListItemLine>{{ valores.precioProducto}}</div>
+
+                    </ng-container>
+                  </mat-list-item>
+                  <mat-divider></mat-divider>
+                </mat-list>
+              </div>
+            </div>
+            <!--para ver cantidad pagos-->
+
+            <div class="row">
+              <div class="col-md-12">
+                <label for="nombre" class="mt-5 d-flex justify-content-center">
+                  Cantidad Parcial a Pagar
+                </label>
                 <input
                   type="number"
                   class="form-control mt-2"
-                  placeholder="cantidad de Producto"
-                  name="cantidad"
+                  placeholder="cantidad a Pagar Parcial"
+                  name="cantidadParcial"
+                  [(ngModel)]="cantidadPagarParcial"
+                  readonly
                   required
                 />
                 <label for="nombre" class="mt-5 d-flex justify-content-center">
-                  Pasillo del Producto
+                  Cantidad Total a Pagar con Descuento
                 </label>
                 <input
-                  type="text"
+                  type="number"
                   class="form-control mt-2"
-                  placeholder="Nombre de Pasillo"
-                  name="pasillo"
+                  placeholder="Cantida A Pagar Total -  Con Descuento"
+                  name="cantidadTotal"
+                  [(ngModel)]="cantidadPagarTotal"
+                  readonly
                   required
                 />
               </div>
@@ -304,8 +418,8 @@
             <div class="row">
               <div class="col-md-12">
                 <button mat-raised-button color="primary">Ingreso</button>
-                <button mat-raised-button color="primary">
-                  Buscar Productos
+                <button mat-raised-button color="primary" (click)="obtencionElementosFinales()">
+                  Obtencion Elementos
                 </button>
               </div>
             </div>
@@ -316,8 +430,12 @@
     <hr />
 
     <div>
-      <button mat-raised-button color="accent" matStepperPrevious>Regreso</button>
-      <button mat-raised-button color="accent" (click)="stepper.reset()">Siguiente</button>
+      <button mat-raised-button color="accent" matStepperPrevious>
+        Regreso
+      </button>
+      <button mat-raised-button color="accent" (click)="stepper.reset()">
+        Siguiente
+      </button>
     </div>
   </mat-step>
 </mat-vertical-stepper>

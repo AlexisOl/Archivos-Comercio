@@ -2,6 +2,6 @@ export class cliente {
   id: number | null = null
   nit!: string
   nombre!: string
-  descuento!: number
+  descuentos: number|null = null
   cantidadGastado!: number
 }
