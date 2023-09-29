@@ -34,4 +34,11 @@ public buscarProductoBodega(id_sucursal: string|undefined):Observable<any>{
   public obtenerTarjetas(identificador: number):Observable<tarjetas> {
     return this.http.get<tarjetas>(this.URL+"obtenerTarjeta?identificador="+identificador);
   }
+
+  // funcion para editar la cantidad de productos en inventario
+  public elimnarCantidadInventario(identificador:number, cantidad:number):Observable<productoInventario> {
+    // generar dos elementos ha enviar
+    const requestBody = {identificador, cantidad};
+    return this.http.post<productoInventario>(this.URL+"elimnarCantidadProducto", requestBody);
+  }
 }

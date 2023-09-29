@@ -258,14 +258,16 @@
   <mat-step>
     <ng-template matStepLabel>Generacion Final de Venta</ng-template>
 
-    <label>Informacion de Cliente</label>
 
     <div class="container">
       <form class="form-container" #f="ngForm">
         <mat-card class="example-card">
-          <mat-card-header>
-            <mat-card-title>Informacion</mat-card-title>
-          </mat-card-header>
+          <div class="text-center">
+            <mat-card-header>
+              <mat-card-title class="mt-5">Informacion</mat-card-title>
+            </mat-card-header>
+          </div>
+
           <mat-card-content>
             <hr />
             <div class="row">
@@ -347,6 +349,7 @@
                   class="form-control mt-2"
                   placeholder="Nombre de Producto"
                   name="nombre"
+                  [(ngModel)]="tipoTarjetaValor"
                   readonly
                 />
               </div>
@@ -356,31 +359,38 @@
             <!--para ver general de productos-->
             <div class="row">
               <div class="col-md-12">
-                <label for="nombre" class="mt-5 d-flex justify-content-center">
+                <label for="nombre" style="font-weight: bold;" class="mt-5 d-flex justify-content-center">
                   Cantidad de Productos
                 </label>
+                <div class="container">
+                  <table class="tabla table table-bordered table-striped">
+                    <thead>
+                      <tr>
+                        <th>Identificador (En Inventario)</th>
+                        <th>Nombre</th>
+                        <th>Cantidad a Vender</th>
+                        <th>precio</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let valores of objetosLista">
+                        <!--solo muesntra
+                        cuando el pasillo y cantidad (elementos de objeto
+                        esten presentes)-->
+                        <ng-container
+                          *ngIf="valores.pasillo && valores.cantidadSolicitud"
+                        >
+                          <!-- Mostrar el identificador aquí -->
+                          <td>{{ valores.identificadoInventario }}</td>
+                          <td>{{ valores.nombreProducto }}</td>
+                          <td>{{ valores.cantidadaVender }}</td>
+                          <td>{{ valores.precioProducto }}</td>
+                        </ng-container>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
 
-                <mat-list>
-                  <div mat-subheader>Ventas</div>
-                  <mat-list-item *ngFor="let valores of objetosLista">
-                    <ng-container
-                      *ngIf="valores.pasillo && valores.cantidadSolicitud"
-                    >
-                      <mat-icon matListItemIcon>local_grocery_store</mat-icon>
-
-                      <div matListItemTitle>
-                        {{ valores.nombreProducto}}
-                      </div>
-                      <div matListItemLine>
-                        {{ valores.identificadoInventario}}
-                      </div>
-                      <div matListItemLine>{{ valores.cantidadaVender}}</div>
-                      <div matListItemLine>{{ valores.precioProducto}}</div>
-
-                    </ng-container>
-                  </mat-list-item>
-                  <mat-divider></mat-divider>
-                </mat-list>
               </div>
             </div>
             <!--para ver cantidad pagos-->
@@ -416,10 +426,18 @@
           </mat-card-content>
           <mat-card-actions>
             <div class="row">
-              <div class="col-md-12">
+              <div class="col-md-6">
                 <button mat-raised-button color="primary">Ingreso</button>
                 <button mat-raised-button color="primary" (click)="obtencionElementosFinales()">
                   Obtencion Elementos
+                </button>
+                 <button mat-raised-button color="primary" (click)="tipoTarjeta()">
+                  Obtencion Tarjetas
+                </button>
+              </div>
+              <div class="col-md-6">
+                <button mat-raised-button color="secondary" (click)="eliminardeInventario()">
+                  Aplicar Puntos
                 </button>
               </div>
             </div>

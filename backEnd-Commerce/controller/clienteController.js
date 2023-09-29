@@ -158,6 +158,51 @@ const obtenerTarjeta = async(req, res) => {
         })
     }
 };
+
+//funcion para eliminacion de elementos
+
+const eliminarElementosCompra = async (req, res) => {
+    const { identificador, cantidad } = req.body;
+
+    if(identificador !== null){
+        try {
+          // Obtención del valor general
+          const cantidadInicial = await pool.query(
+            "SELECT * FROM manejoinventario.registroinventariobodega WHERE identificador = $1",
+            [identificador]
+          );
+            console.log(cantidadInicial.rows[0]);
+          if (cantidadInicial.rows.length > 0) {
+            // Verificar si se encontraron resultados
+            const cantidadActualizada =
+              parseInt(cantidadInicial.rows[0].cantidadgeneral) - parseInt(cantidad);
+      
+            await pool.query(
+              "UPDATE manejoinventario.registroinventariobodega SET cantidadgeneral = $1 WHERE identificador = $2;",
+              [cantidadActualizada, identificador]
+            );
+      
+            res.status(200).json({
+              ingreso: 'eliminacion Exitosa',
+            });
+          } else {
+            // No se encontraron resultados para el identificador proporcionado
+            res.status(404).json({
+              error: 'No se encontró ningún registro para el identificador proporcionado.',
+            });
+          }
+        } catch (error) {
+          console.error('Error al eliminar elementos:', error);
+          res.status(500).json({
+            error: 'Hubo un error en el servidor al eliminar elementos.',
+          });
+        }
+    }
+   
+  };
+  
+
+
 //funcion para casteos
 
 async function casteos(arrayValor, posicion, textoCadena){
@@ -177,5 +222,6 @@ module.exports= {
     buscarCliente: buscarCliente,
     devolverProductoInventario: devolverProductoInventario,
     ingresoCliente:ingresoCliente,
-    obtenerTarjeta: obtenerTarjeta
+    obtenerTarjeta: obtenerTarjeta,
+    eliminarElementosCompra:eliminarElementosCompra
 };

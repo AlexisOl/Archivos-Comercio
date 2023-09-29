@@ -32,6 +32,8 @@ router.get('/buscarClienteNit', clienteController.buscarCliente)
 router.get('/obtenerProductoCajero', clienteController.devolverProductoInventario)
 router.post('/ingresoCliente', clienteController.ingresoCliente)
 router.get('/obtenerTarjeta', clienteController.obtenerTarjeta)
+router.post('/elimnarCantidadProducto', clienteController.eliminarElementosCompra)
+
 
 
 module.exports = router;

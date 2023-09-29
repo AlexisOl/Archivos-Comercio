@@ -98,12 +98,19 @@ CREATE TABLE manejoGeneral.tarjetas (
     PRIMARY KEY(identificador)
 );
 --tabla de clientes: descuentos null, ya que no es necesario que la pida 
+
+--------------
+--------------
+--------------
+--------------
+-------------- CAMBIO CLIENTE
 CREATE TABLE manejoGeneral.Clientes (
     identificador SERIAL NOT NULL,
     nombre VARCHAR(50) NOT NULL,
     nit VARCHAR(15) NOT NULL,
     descuentos INT,
     cantidadGastado INT,
+    puntosGanados INT not null,
     PRIMARY KEY(identificador),
     FOREIGN KEY (descuentos) REFERENCES manejoGeneral.tarjetas(identificador)
 );
