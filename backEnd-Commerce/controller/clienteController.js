@@ -203,6 +203,57 @@ const eliminarElementosCompra = async (req, res) => {
   
 
 
+  //funcion para ingreso de factura:
+
+  const ingresoFactura = async (req, res) => {
+    const {identificador, nit_cliente, nombre_cliente, total_global, total_Descontado, fecha_facturacion} = req.body;
+    try {
+        const valorIdentificador = await pool.query(
+            'INSERT INTO manejoventas.facturas (nit_cliente, nombre_cliente, total_global, total_Descontado, fecha_facturacion) VALUES ($1, $2, $3, $4, $5) RETURNING identificador;',
+            [ nit_cliente, nombre_cliente,total_global, total_Descontado, fecha_facturacion]
+        );
+    
+        res.status(200).json({ 
+            message: 'Asignación de factura exitosa',
+            identificador: valorIdentificador.rows[0].identificador });
+      } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error al asignar factura.' });
+      }
+  }
+
+// funcion para ingreso de detalle Factura 
+const detalleFacturaIngreso = async (req, res) => {
+    const {identificador, identificadorFactura, identificador_producto_Inventario, nombre_producto, cantidad, precio_especifico} = req.body;
+    try {
+        await pool.query(
+            'INSERT INTO manejoventas.detallefacturas (identificadorFactura, identificador_producto_Inventario, nombre_producto, cantidad, precio_especifico) VALUES ($1, $2, $3, $4, $5)',
+            [ identificadorFactura, identificador_producto_Inventario,nombre_producto, parseFloat(cantidad), parseFloat(precio_especifico)]
+        );
+    
+        res.status(200).json({ message: 'Asignación de detalle' });
+      } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error al asignar detalle.' });
+      }
+  }
+
+// funcion final para ingreso de venta
+const ingresoVentaFinal = async (req, res) => {
+    const {identificador, identificador_empleado, identificador_factura} = req.body;
+    try {
+        await pool.query(
+            'INSERT INTO manejoventas.Ventas (identificador_empleado, identificador_factura) VALUES ($1, $2)',
+            [ identificador_empleado, identificador_factura]
+        );
+    
+        res.status(200).json({ message: 'Asignación de venta exitosa' });
+      } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error al asignar venta.' });
+      }
+  }
+
 //funcion para casteos
 
 async function casteos(arrayValor, posicion, textoCadena){
@@ -223,5 +274,8 @@ module.exports= {
     devolverProductoInventario: devolverProductoInventario,
     ingresoCliente:ingresoCliente,
     obtenerTarjeta: obtenerTarjeta,
-    eliminarElementosCompra:eliminarElementosCompra
+    eliminarElementosCompra:eliminarElementosCompra,
+    ingresoFactura:ingresoFactura,
+    detalleFacturaIngreso:detalleFacturaIngreso,
+    ingresoVentaFinal:ingresoVentaFinal
 };

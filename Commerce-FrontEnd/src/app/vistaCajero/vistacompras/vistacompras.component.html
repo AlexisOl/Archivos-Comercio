@@ -294,7 +294,7 @@
                   class="form-control mt-2"
                   placeholder="Nombre de Producto"
                   name="nombre"
-                  [value]="cajaCajero"
+                  [value]="usuarioGeneral.contrasenia"
                   [(ngModel)]="cajaCajero"
                   readonly
                 />
@@ -308,7 +308,8 @@
                   class="form-control mt-2"
                   placeholder="Nombre de Producto"
                   name="nombre"
-                  readonly
+                  [(ngModel)]="fechaVenta"
+
                 />
               </div>
             </div>
@@ -336,7 +337,7 @@
                   class="form-control mt-2"
                   placeholder="Nombre de Producto"
                   name="nombre"
-                  [value]="this.nombreGeneral"
+                  [value]="nombreGeneral"
                   readonly
                 />
               </div>
@@ -345,13 +346,14 @@
                   Tarjeta de Cliente
                 </label>
                 <input
-                  type="text"
-                  class="form-control mt-2"
-                  placeholder="Nombre de Producto"
-                  name="nombre"
-                  [(ngModel)]="tipoTarjetaValor"
-                  readonly
-                />
+                type="text"
+                class="form-control mt-2"
+                placeholder="Nombre de Producto"
+                name="nombre"
+                [value]="tipoTarjetaValor"
+                readonly
+              />
+
               </div>
             </div>
             <hr />
@@ -410,6 +412,18 @@
                   required
                 />
                 <label for="nombre" class="mt-5 d-flex justify-content-center">
+                  Cantidad de Descuento Generado
+                </label>
+                <input
+                  type="number"
+                  class="form-control mt-2"
+                  placeholder="Cantida A Pagar Total -  Con Descuento"
+                  name="descuento"
+                  [(ngModel)]="descuentoGenerado"
+                  readonly
+                  required
+                />
+                <label for="nombre" class="mt-5 d-flex justify-content-center">
                   Cantidad Total a Pagar con Descuento
                 </label>
                 <input
@@ -422,25 +436,48 @@
                   required
                 />
               </div>
+
             </div>
           </mat-card-content>
+          <hr/>
           <mat-card-actions>
             <div class="row">
               <div class="col-md-6">
-                <button mat-raised-button color="primary">Ingreso</button>
                 <button mat-raised-button color="primary" (click)="obtencionElementosFinales()">
                   Obtencion Elementos
                 </button>
-                 <button mat-raised-button color="primary" (click)="tipoTarjeta()">
-                  Obtencion Tarjetas
-                </button>
               </div>
               <div class="col-md-6">
-                <button mat-raised-button color="secondary" (click)="eliminardeInventario()">
-                  Aplicar Puntos
-                </button>
+
+                 <button mat-raised-button color="primary" (click)="generarPosiblesDescuentoBoton()">
+                  Generar Descuentos
+                 </button>
               </div>
             </div>
+
+            <!-- CAMBIOS DE DISTANCIA PARA LOS BOTONONES-->
+            <div class="container" *ngIf="generarBotonDescuento">
+              <div class="row">
+                <div class="col-md-2">
+                  <button mat-raised-button color="primary" (click)="tipoTarjeta()">
+                    Obtencion Tarjetas
+                  </button>
+                </div>
+                <div class="col-lg-8">
+                  <button mat-raised-button color="secondary" (click)="eliminardeInventario()">
+                    Aplicar Puntos
+                  </button>
+                </div>
+
+              </div>
+            </div>
+
+           <div class="row">
+            <div class="col-md-8">
+              <button mat-raised-button color="primary" (click)="generarVenta()">Ingreso</button>
+            </div>
+           </div>
+
           </mat-card-actions>
         </mat-card>
       </form>

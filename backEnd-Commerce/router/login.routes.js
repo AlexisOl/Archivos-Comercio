@@ -33,6 +33,9 @@ router.get('/obtenerProductoCajero', clienteController.devolverProductoInventari
 router.post('/ingresoCliente', clienteController.ingresoCliente)
 router.get('/obtenerTarjeta', clienteController.obtenerTarjeta)
 router.post('/elimnarCantidadProducto', clienteController.eliminarElementosCompra)
+router.post('/generarFactura', clienteController.ingresoFactura)
+router.post('/ingresoDetalleFactura', clienteController.detalleFacturaIngreso)
+router.post('/ingresoVenta', clienteController.ingresoVentaFinal)
 
 
 

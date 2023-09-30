@@ -2,8 +2,11 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { cliente } from 'src/modelos/cliente';
+import { detallefacturas } from 'src/modelos/detalleFactura';
+import { factura } from 'src/modelos/factura';
 import { productoInventario } from 'src/modelos/productoInventario';
 import { tarjetas } from 'src/modelos/tarjetas';
+import { ventas } from 'src/modelos/ventas';
 
 @Injectable({
   providedIn: 'root'
@@ -41,4 +44,23 @@ public buscarProductoBodega(id_sucursal: string|undefined):Observable<any>{
     const requestBody = {identificador, cantidad};
     return this.http.post<productoInventario>(this.URL+"elimnarCantidadProducto", requestBody);
   }
+
+
+  // funcion para terminar con ventas ingreso FInal
+
+  public ingresoFactura(factura:factura):Observable<factura> {
+    return this.http.post<factura>(this.URL+"generarFactura", factura);
+  }
+
+  // funcion parar ingreso de detalleFactura
+
+  public ingresoDetalleFactura(detalleFactura: detallefacturas):Observable<detallefacturas> {
+    return this.http.post<detallefacturas>(this.URL+"ingresoDetalleFactura", detalleFactura);
+  }
+
+  // funcion para el ingreso de las ventas
+  public ingresoVenta(venta: ventas):Observable<ventas> {
+    return this.http.post<ventas>(this.URL+'ingresoVenta', venta);
+  }
+
 }

@@ -9,6 +9,8 @@ import { min } from 'rxjs';
 import { CajeroServiceService } from 'src/app/services/cajero-service.service';
 import { SesionServicioService } from 'src/app/services/sesion-servicio.service';
 import { cliente } from 'src/modelos/cliente';
+import { detallefacturas } from 'src/modelos/detalleFactura';
+import { factura } from 'src/modelos/factura';
 import { producto } from 'src/modelos/producto';
 import { productoCombinadoVenta } from 'src/modelos/productoCombinadoVenta';
 import { productoInventario } from 'src/modelos/productoInventario';
@@ -20,6 +22,8 @@ import { tarjetas } from 'src/modelos/tarjetas';
   styleUrls: ['./vistacompras.component.css'],
 })
 export class VistacomprasComponent implements OnInit {
+  descuentoFinal: number = 0;
+
   constructor(
     private form: FormBuilder,
     private clieteServicio: CajeroServiceService,
@@ -51,16 +55,18 @@ export class VistacomprasComponent implements OnInit {
 
   // tajeta general
   tipoTarjetaValor: any;
-  objetoTarjeta:any;
-//---------------------------------------------------------------------
+  objetoTarjeta: any;
+  //---------------------------------------------------------------------
   // generacion local para los cajeros
   usuarioGeneral: any;
   id_cajero: any;
   cajaCajero: any;
+  fechaVenta: any;
 
   //generacion local de productos venta:
   cantidadPagarParcial: any;
   cantidadPagarTotal: any;
+  descuentoGenerado: any;
 
   //---------
   // para la vista de los elementos de la tabla  ---- 2 evento
@@ -72,8 +78,10 @@ export class VistacomprasComponent implements OnInit {
   listadoBodega: any;
   cantidadProductoVenta: number = 0;
 
-  ngOnInit(): void {
+  //// elementos botonoes
+  generarBotonDescuento: boolean = false;
 
+  ngOnInit(): void {
     this.usuarioGeneral = this.servicio.getUsuario();
 
     this.toppings.valueChanges.subscribe((selectedToppings) => {
@@ -178,15 +186,15 @@ export class VistacomprasComponent implements OnInit {
     );
   }
 
-  //para que cierre la alerta
+  //para que cierre la alerta --------------------------------------
   cerrarAlerta() {
     // Cierra la alerta utilizando la referencia al elemento DOM
     this.alertBox.nativeElement.style.display = 'none';
   }
 
-  // ingreso elementos finales
+  // ingreso elementos finales ------------------------------------
   obtencionElementosFinales() {
-    this.tipoTarjeta();
+    //this.tipoTarjeta();
 
     console.log(this.servicio.getUsuario());
 
@@ -203,16 +211,17 @@ export class VistacomprasComponent implements OnInit {
     }
     // obtencion de los elementos de cajejo:
     // this.id_cajero= this.servicio.getUsuario()?.identificador;
-    this.cajaCajero = this.usuarioGeneral.nombre;
+    this.cajaCajero = this.usuarioGeneral.contrasenia;
     this.id_cajero = this.usuarioGeneral.identificador;
 
     this.cantidadPagarParcial = this.generacionCantidadPagoParcial();
 
-   // ... otras propiedades que necesites
+    // ... otras propiedades que necesites
+    console.log(this.descuentoGenerado);
 
+    this.cantidadPagarTotal = this.cantidadPagarParcial - this.descuentoFinal;
 
-   // this.cantidadPagarTotal = this.obtencionPuntos(this.cantidadPagarParcial);
-
+    // this.descuentoGenerado = this.obtencionPuntos(this.cantidadPagarParcial);
   }
 
   //funcion para la cantidad de pago, parcial
@@ -235,63 +244,72 @@ export class VistacomprasComponent implements OnInit {
 
   //fucnion para obtener el tipo de tarjeta
 
- // ...
- async tipoTarjeta() {
-  try {
-    const cliente: cliente | undefined = await this.clieteServicio.buscarCliente(this.nitCliente).toPromise();
+  // ...
+  async tipoTarjeta(): Promise<void> {
+    let cantidadFinal = 0; // Inicializar cantidadFinal en 0
+    //this.descuentoGenerado = 0;
+    try {
+      const cliente: cliente | undefined = await this.clieteServicio
+        .buscarCliente(this.nitCliente)
+        .toPromise();
 
-    if (cliente !== undefined && cliente.descuentos !== null) {
-      console.log(cliente.descuentos);
-      console.log(cliente);
-      if (cliente.descuentos === undefined) {
-        console.log('Tarjeta común, valor 1');
-        // Puedes agregar más lógica si es necesario para el caso de una tarjeta común.
-      } else {
-        const tarjeta: tarjetas | undefined = await this.clieteServicio.obtenerTarjetas(cliente.descuentos).toPromise();
+      if (cliente !== undefined && cliente.descuentos !== null) {
+        console.log(cliente.descuentos);
+        console.log(cliente);
+        if (cliente.descuentos === undefined) {
+          console.log('Tarjeta común, valor 1');
 
-        if (tarjeta !== undefined) {
-          this.objetoTarjeta = tarjeta;
-          console.log("Tarjeta recibida:", this.objetoTarjeta);
-          this.tipoTarjetaValor = tarjeta.tipo;
-          // Aquí puedes realizar cualquier otra lógica que dependa de los valores de la tarjeta.
+          // Puedes agregar más lógica si es necesario para el caso de una tarjeta común.
         } else {
-          console.log('No se pudo obtener la tarjeta.');
-          // Maneja el caso en el que no se pudo obtener la tarjeta.
+          if (cliente.descuentos === null) {
+            cantidadFinal = this.cantidadPagarParcial;
+          } else {
+            const tarjeta: tarjetas | undefined = await this.clieteServicio
+              .obtenerTarjetas(cliente.descuentos)
+              .toPromise();
+
+            if (tarjeta !== undefined) {
+              this.objetoTarjeta = tarjeta;
+              console.log('Tarjeta recibida:', this.objetoTarjeta);
+              this.tipoTarjetaValor = tarjeta.tipo;
+              cantidadFinal = this.obtencionPuntos(this.cantidadPagarParcial);
+            } else {
+              console.log('No se pudo obtener la tarjeta.');
+            }
+          }
         }
       }
+    } catch (error) {
+      console.error('Error al obtener la tarjeta o cliente:', error);
     }
-  } catch (error) {
-    console.error('Error al obtener la tarjeta o cliente:', error);
-    // Maneja el error de la solicitud aquí.
+
+    this.descuentoGenerado = cantidadFinal;
+    this.descuentoFinal = cantidadFinal;
+    console.log(cantidadFinal);
   }
 
-  this.cantidadPagarTotal=this.obtencionPuntos(this.cantidadPagarParcial);
-
-}
-
-// ...
-
-
+  // ...
 
   //funcion para la cantidad Total de pago
 
-  obtencionPuntos(valorPagoParcial:number): number {
+  obtencionPuntos(valorPagoParcial: number): number {
     let cantidadPago = 0;
-    var cantidadPuntos =Math.min(valorPagoParcial/this.objetoTarjeta.cantidadbase);
-    cantidadPago = cantidadPuntos*this.objetoTarjeta.cantidadpuntos;
+    var cantidadPuntos = Math.min(
+      valorPagoParcial / this.objetoTarjeta.cantidadbase
+    );
+    cantidadPago = cantidadPuntos * this.objetoTarjeta.cantidadpuntos;
     return cantidadPago;
   }
 
-
   //funcion para aplicar Descuento de puntos Generales
-  descuentoPuntos():number {
-    let valorDescontado =0;
-
-
+  descuentoPuntos(): number {
+    let valorDescontado = 0;
     return valorDescontado;
-
   }
 
+  ///---------------------------
+  ///---------------------------
+  ///---------------------------
   ///---------------------------
   // para obtener los productos de tienda (solo inventario)
   obtenerElementosdeInventario() {
@@ -304,28 +322,65 @@ export class VistacomprasComponent implements OnInit {
       });
   }
 
-
-  //funcion para eliminar los valores que escogio
-
-  eliminardeInventario(){
-    this.objetosLista.forEach((elemento:any) => {
-
-
+  //funcion para eliminar los valores que escogio -----------------
+  eliminardeInventario() {
+    this.objetosLista.forEach((elemento: any) => {
       if (elemento.pasillo && elemento.cantidadaVender) {
         let identificadorElemento = elemento.identificadoInventario;
         let cantidad = elemento.cantidadaVender;
-        this.clieteServicio.elimnarCantidadInventario(identificadorElemento, cantidad).subscribe(
-        );
+        this.clieteServicio
+          .elimnarCantidadInventario(identificadorElemento, cantidad)
+          .subscribe();
       }
-
     });
-
   }
 
-  // funcion para generar la venta
+  // funcion para generar la venta ----------------------------------
 
   generarVenta() {
+    if (
+      (this.nitCliente,
+      this.nombreGeneral,
+      this.cajaCajero,
+      this.id_cajero,
+      this.cantidadPagarParcial,
+      this.descuentoGenerado,
+      this.cantidadPagarTotal,
+      this.fechaVenta !== null && this.objetosLista !== null)
+    ) {
+      let facturaNueva: factura = new factura();
+      let identificadoFactora;
+      facturaNueva.nit_cliente = this.nitCliente;
+      facturaNueva.nombre_cliente = this.nombreGeneral;
+      facturaNueva.total_global = this.cantidadPagarParcial;
+      facturaNueva.total_Descontado = this.cantidadPagarTotal;
+      facturaNueva.fecha_facturacion = this.fechaVenta;
 
+      // hago servicio
+      this.clieteServicio
+        .ingresoFactura(facturaNueva)
+        .subscribe((factura: factura) => {
+          console.log('aaaaaaaaaaaaaa', factura);
+
+          this.objetosLista.forEach((objInventario: any) => {
+            if (objInventario.pasillo) {
+              let detalleFactura: detallefacturas = new detallefacturas();
+              detalleFactura.identificadorFactura = factura.identificador;
+              detalleFactura.identificador_producto_Inventario = objInventario.identificadoInventario;
+              detalleFactura.nombre_producto = objInventario.nombreProducto;
+              detalleFactura.cantidad = objInventario.cantidadaVender;
+              detalleFactura.precio_especifico = objInventario.precioProducto;
+              this.clieteServicio
+                .ingresoDetalleFactura(detalleFactura)
+                .subscribe();
+            }
+          });
+        });
+    }
   }
 
+  //funcion para que el boton muestre los descuentos --------------------
+  generarPosiblesDescuentoBoton() {
+    this.generarBotonDescuento = !this.generarBotonDescuento;
+  }
 }

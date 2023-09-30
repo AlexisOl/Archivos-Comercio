@@ -134,13 +134,15 @@ CREATE TABLE manejoVentas.facturas (
 -- TABLA PARA EL MANEJO DE DETALLE DE FACTURA, ES LA QUE LE SIGUE A FACTURA EN CREAR
 CREATE TABLE manejoVentas.detallefacturas (
     identificador SERIAL NOT NULL,
-    identificadorFactura VARCHAR(25) NOT NULL,
-    identificador_producto_Inventario VARCHAR(25) NOT NULL,
+    identificadorFactura INT NOT NULL,
+    identificador_producto_Inventario INT NOT NULL,
     nombre_producto VARCHAR(100) NOT NULL,
     cantidad INT NOT NULL,
-    precio_especifico INT NOT NULL,
-    PRIMARY KEY(identificador)
+    precio_especifico DECIMAL(10,2)  NOT NULL,
+    PRIMARY KEY(identificador),
 
+    FOREIGN KEY (identificadorFactura) REFERENCES manejoVentas.facturas(identificador),
+    FOREIGN KEY (identificador_producto_Inventario) REFERENCES manejoInventario.registroInventarioBodega(identificador)
 );
 
 ----------------------------------------------------------------------------
