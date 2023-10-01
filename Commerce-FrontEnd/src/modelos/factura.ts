@@ -3,6 +3,6 @@ export class factura {
   nit_cliente!:string;
   nombre_cliente!:string;
   total_global!:number;
-  total_Descontado!:number;
+  total_descontado!:number;
   fecha_facturacion!:Date;
 }

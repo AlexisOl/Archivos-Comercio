@@ -411,30 +411,36 @@
                   readonly
                   required
                 />
-                <label for="nombre" class="mt-5 d-flex justify-content-center">
-                  Cantidad de Descuento Generado
-                </label>
-                <input
-                  type="number"
-                  class="form-control mt-2"
-                  placeholder="Cantida A Pagar Total -  Con Descuento"
-                  name="descuento"
-                  [(ngModel)]="descuentoGenerado"
-                  readonly
-                  required
-                />
-                <label for="nombre" class="mt-5 d-flex justify-content-center">
-                  Cantidad Total a Pagar con Descuento
-                </label>
-                <input
-                  type="number"
-                  class="form-control mt-2"
-                  placeholder="Cantida A Pagar Total -  Con Descuento"
-                  name="cantidadTotal"
-                  [(ngModel)]="cantidadPagarTotal"
-                  readonly
-                  required
-                />
+
+
+                <div class="container" *ngIf="generarBotonDescuento">
+
+                  <label for="nombre" class="mt-5 d-flex justify-content-center">
+                    Cantidad de Puntos Restantes
+                  </label>
+                  <input
+                    type="number"
+                    class="form-control mt-2"
+                    placeholder="Cantida A Pagar Total -  Con Descuento"
+                    name="descuento"
+                    [(ngModel)]="descuentoGeneradoUnico"
+                    readonly
+                    required
+                  />
+                  <label for="nombre" class="mt-5 d-flex justify-content-center">
+                    Cantidad Total a Pagar con Descuento
+                  </label>
+                  <input
+                    type="number"
+                    class="form-control mt-2"
+                    placeholder="Cantida A Pagar Total -  Con Descuento"
+                    name="cantidadTotal"
+                    [(ngModel)]="cantidadPagarTotal"
+                    readonly
+                    required
+                  />
+                </div>
+
               </div>
 
             </div>
@@ -449,7 +455,7 @@
               </div>
               <div class="col-md-6">
 
-                 <button mat-raised-button color="primary" (click)="generarPosiblesDescuentoBoton()">
+                 <button mat-raised-button color="accent" (click)="generarPosiblesDescuentoBoton()">
                   Generar Descuentos
                  </button>
               </div>
@@ -464,7 +470,7 @@
                   </button>
                 </div>
                 <div class="col-lg-8">
-                  <button mat-raised-button color="secondary" (click)="eliminardeInventario()">
+                  <button mat-raised-button color="secondary" (click)="actualizarPuntosGlobales()">
                     Aplicar Puntos
                   </button>
                 </div>
@@ -474,7 +480,7 @@
 
            <div class="row">
             <div class="col-md-8">
-              <button mat-raised-button color="primary" (click)="generarVenta()">Ingreso</button>
+              <button mat-raised-button color="warn" (click)="generarVenta()">Ingreso</button>
             </div>
            </div>
 

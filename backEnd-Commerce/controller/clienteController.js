@@ -125,13 +125,13 @@ const devolverProductoInventario = async(req, res) => {
 //funcion para el ingreso de clientes:
 
 const ingresoCliente = async(req, res) => {
-    const {id, nit, nombre, descuento, cantidadGastado} = req.body ;
+    const {id, nit, nombre, descuento, cantidadGastado, puntosganados} = req.body ;
 
     try {
      
         await pool.query(
-            'INSERT INTO manejoGeneral.Clientes (nombre, nit, descuentos, cantidadGastado) VALUES ($1, $2, $3, $4)',
-            [ nombre, nit,null, cantidadGastado]
+            'INSERT INTO manejoGeneral.Clientes (nombre, nit, descuentos, cantidadGastado, puntosGanados) VALUES ($1, $2, $3, $4, $5)',
+            [ nombre, nit,null, cantidadGastado, puntosganados]
         );
     
         res.status(200).json({ message: 'Asignación de cliente exitosa' });
@@ -254,6 +254,60 @@ const ingresoVentaFinal = async (req, res) => {
       }
   }
 
+
+
+  // funcion final para la actualizacion de cliente en base a la venta
+
+  // esto solo si no manda a pedir descuento
+  const actualizacionClientesVenta = async (req, res) => {
+    const {canitdadGastado, cantidadPuntos, nit} = req.body;
+
+    try {
+      // busca el cliente
+      const puntosGanadosEntero = Math.round(cantidadPuntos);
+      const cantidadGastadoEntero = Math.round(canitdadGastado);
+
+
+      const clienteEspecifico = await pool.query(
+        "SELECT * FROM manejogeneral.clientes WHERE nit = $1",
+        [nit]
+      ) ;
+      
+      //actualiza
+      await pool.query(
+        'UPDATE manejogeneral.clientes SET puntosGanados = $1, cantidadGastado = $2 WHERE nit = $3',
+        [ puntosGanadosEntero+clienteEspecifico.rows[0].puntosganados, cantidadGastadoEntero+clienteEspecifico.rows[0].cantidadgastado,nit ]
+    );
+
+    res.status(200).json({ message: 'Asignación de venta exitosa' });
+    } catch(error) {
+      console.log(error);
+      res.status(500).json({ error: 'Error al modificar Cliente.' });
+
+    }
+  };
+
+  /// funcion para actualizar cliente, esto SOLO SI MANDA A PEDIR TARJETA
+  const actualizacionClienteVentaDescuento = async(req, res) => {
+    const {canitdadGastado, cantidadPuntos, nit} = req.body;
+
+    try {
+      const puntosGanadosEntero = Math.round(cantidadPuntos);
+      const cantidadGastadoEntero = Math.round(canitdadGastado);
+     
+      //actualiza
+      await pool.query(
+          'UPDATE manejoGeneral.Clientes SET puntosGanados = $1 WHERE nit = $2',
+          [puntosGanadosEntero, nit ]
+      );
+      res.status(200).json({ message: 'Asignación de venta exitosa' });
+    } catch(error) {
+      console.log(error);
+      res.status(500).json({ error: 'Error al modificar Cliente.' });
+
+    }
+
+  }
 //funcion para casteos
 
 async function casteos(arrayValor, posicion, textoCadena){
@@ -277,5 +331,7 @@ module.exports= {
     eliminarElementosCompra:eliminarElementosCompra,
     ingresoFactura:ingresoFactura,
     detalleFacturaIngreso:detalleFacturaIngreso,
-    ingresoVentaFinal:ingresoVentaFinal
+    ingresoVentaFinal:ingresoVentaFinal,
+    actualizacionClientesVenta: actualizacionClientesVenta,
+    actualizacionClienteVentaDescuento: actualizacionClienteVentaDescuento
 };

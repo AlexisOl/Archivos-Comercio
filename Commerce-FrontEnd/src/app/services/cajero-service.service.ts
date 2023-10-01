@@ -63,4 +63,19 @@ public buscarProductoBodega(id_sucursal: string|undefined):Observable<any>{
     return this.http.post<ventas>(this.URL+'ingresoVenta', venta);
   }
 
+  // como al generar la venta, le tengo que ingresar al usuario la cantidad de
+  // dinero gastado y los puntos obtenidos, en base a su tarjeta
+
+  public actualizacionElementosCliente(canitdadGastado: number, cantidadPuntos: number, nit:string):Observable<cliente> {
+    const requesteBody = {canitdadGastado, cantidadPuntos, nit};
+    return this.http.post<cliente>(this.URL+"actualizacionClienteVenta",requesteBody)
+  }
+// funcion para generar las ventas pero solo si tiene descuento
+
+public actualizacionElementosClienteconDescuento(canitdadGastado: number, cantidadPuntos: number, nit:string):Observable<cliente> {
+  const requesteBody = {canitdadGastado, cantidadPuntos, nit};
+  return this.http.post<cliente>(this.URL+"actualizacionClienteVentaconDescuento",requesteBody)
+}
+
+
 }

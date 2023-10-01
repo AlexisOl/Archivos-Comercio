@@ -15,6 +15,7 @@ import { producto } from 'src/modelos/producto';
 import { productoCombinadoVenta } from 'src/modelos/productoCombinadoVenta';
 import { productoInventario } from 'src/modelos/productoInventario';
 import { tarjetas } from 'src/modelos/tarjetas';
+import { ventas } from 'src/modelos/ventas';
 
 @Component({
   selector: 'app-vistacompras',
@@ -65,8 +66,12 @@ export class VistacomprasComponent implements OnInit {
 
   //generacion local de productos venta:
   cantidadPagarParcial: any;
+  //solo de forma local
   cantidadPagarTotal: any;
   descuentoGenerado: any;
+
+  //para mostrar en UI
+  descuentoGeneradoUnico:any;
 
   //---------
   // para la vista de los elementos de la tabla  ---- 2 evento
@@ -80,6 +85,9 @@ export class VistacomprasComponent implements OnInit {
 
   //// elementos botonoes
   generarBotonDescuento: boolean = false;
+
+  // para venta final ya con descuento
+  cantidadPuntosDescuento: any;
 
   ngOnInit(): void {
     this.usuarioGeneral = this.servicio.getUsuario();
@@ -147,6 +155,7 @@ export class VistacomprasComponent implements OnInit {
     generacionCliente.cantidadGastado = 0;
     generacionCliente.nit = this.nitCliente;
     generacionCliente.nombre = this.nombreCliente;
+    generacionCliente.puntosganados = 0;
     this.valorClienteUso = 1;
 
     //generacion del post / insert
@@ -177,6 +186,8 @@ export class VistacomprasComponent implements OnInit {
 
         this.nombreClienteEncotrado = clientes.nombre;
         this.valorClienteUso = 0;
+        this.cantidadPuntosDescuento = clientes.puntosganados;
+        console.log(this.cantidadPuntosDescuento);
 
         this.noExiste = false;
       },
@@ -196,14 +207,13 @@ export class VistacomprasComponent implements OnInit {
   obtencionElementosFinales() {
     //this.tipoTarjeta();
 
-    console.log(this.servicio.getUsuario());
-
     //obtencion de los clientes:
     if (
       this.nombreClienteEncotrado === undefined &&
-      this.nombreClienteEncotrado === undefined
+      this.nombreCliente === undefined
     ) {
       console.log('no se puede generar ingreso');
+
     } else if (this.valorClienteUso === 1) {
       this.nombreGeneral = this.nombreCliente;
     } else if (this.valorClienteUso === 0) {
@@ -213,13 +223,12 @@ export class VistacomprasComponent implements OnInit {
     // this.id_cajero= this.servicio.getUsuario()?.identificador;
     this.cajaCajero = this.usuarioGeneral.contrasenia;
     this.id_cajero = this.usuarioGeneral.identificador;
-
+    this.tipoTarjeta();
     this.cantidadPagarParcial = this.generacionCantidadPagoParcial();
 
     // ... otras propiedades que necesites
     console.log(this.descuentoGenerado);
 
-    this.cantidadPagarTotal = this.cantidadPagarParcial - this.descuentoFinal;
 
     // this.descuentoGenerado = this.obtencionPuntos(this.cantidadPagarParcial);
   }
@@ -286,6 +295,8 @@ export class VistacomprasComponent implements OnInit {
     this.descuentoGenerado = cantidadFinal;
     this.descuentoFinal = cantidadFinal;
     console.log(cantidadFinal);
+    this.generarTotal();
+
   }
 
   // ...
@@ -299,12 +310,6 @@ export class VistacomprasComponent implements OnInit {
     );
     cantidadPago = cantidadPuntos * this.objetoTarjeta.cantidadpuntos;
     return cantidadPago;
-  }
-
-  //funcion para aplicar Descuento de puntos Generales
-  descuentoPuntos(): number {
-    let valorDescontado = 0;
-    return valorDescontado;
   }
 
   ///---------------------------
@@ -338,49 +343,133 @@ export class VistacomprasComponent implements OnInit {
   // funcion para generar la venta ----------------------------------
 
   generarVenta() {
-    if (
-      (this.nitCliente,
-      this.nombreGeneral,
-      this.cajaCajero,
-      this.id_cajero,
-      this.cantidadPagarParcial,
-      this.descuentoGenerado,
-      this.cantidadPagarTotal,
-      this.fechaVenta !== null && this.objetosLista !== null)
-    ) {
-      let facturaNueva: factura = new factura();
-      let identificadoFactora;
-      facturaNueva.nit_cliente = this.nitCliente;
-      facturaNueva.nombre_cliente = this.nombreGeneral;
-      facturaNueva.total_global = this.cantidadPagarParcial;
-      facturaNueva.total_Descontado = this.cantidadPagarTotal;
-      facturaNueva.fecha_facturacion = this.fechaVenta;
+    this.generarTotal();
+    // si todo es no nulo lo hace
+    if (this.generarBotonDescuento === false) {
+      console.log('si da ', this.descuentoGenerado, this.cantidadPagarTotal);
+      // lamo a la funcion de venta Metodo en base a los valores simples (sin aplicar descuento)
+      this.ventaMetodo(this.nitCliente,
+        this.nombreGeneral,
+        this.cantidadPagarParcial,
+        this.cantidadPagarParcial,
+        this.fechaVenta,
+        this.id_cajero
+        );
 
-      // hago servicio
+
+        // servicio para que me actualice al cliente
+        this.clieteServicio.actualizacionElementosCliente(this.cantidadPagarParcial, this.descuentoGenerado, this.nitCliente).subscribe();
+    } else {
+      if (
+        (this.nitCliente,
+        this.nombreGeneral,
+        this.cajaCajero,
+        this.id_cajero,
+        this.cantidadPagarParcial,
+        this.descuentoGenerado,
+        this.cantidadPagarTotal,
+        this.fechaVenta !== null && this.objetosLista !== null)
+      ) {
+        // llmado de metodo de ingreso Venta:
+
+        this.actualizarPuntosGlobales();
+
+        this.ventaMetodo(
+            this.nitCliente,
+            this.nombreGeneral,
+            this.cantidadPagarParcial,
+            this.cantidadPagarTotal,
+            this.fechaVenta,
+            this.id_cajero
+          );
+          //genero servicio de elementos de actualizacion de clientes
+          this.clieteServicio.actualizacionElementosClienteconDescuento(this.cantidadPagarTotal,this.descuentoGenerado, this.nitCliente).subscribe();
+
+
+
+
+      }
+    }
+  }
+
+  // funcion para generar todas las transacciones de ventas
+  ventaMetodo(nitcliente:string, nombregeneral:string, cantidadParcial:number, cantidadTotal:number,
+    fechaventa:Date, idCajero:number ) {
+
+      //genera la factura
+      let facturaNueva: factura = new factura();
+      facturaNueva.nit_cliente = nitcliente;
+      facturaNueva.nombre_cliente = nombregeneral;
+      facturaNueva.total_global = cantidadParcial;
+      facturaNueva.total_descontado = cantidadTotal;
+      facturaNueva.fecha_facturacion = fechaventa;
+
+      // hago servicio para ingreso factura
       this.clieteServicio
         .ingresoFactura(facturaNueva)
         .subscribe((factura: factura) => {
           console.log('aaaaaaaaaaaaaa', factura);
 
+          // ciclo en base al array
           this.objetosLista.forEach((objInventario: any) => {
             if (objInventario.pasillo) {
+              //nuevo objeto
               let detalleFactura: detallefacturas = new detallefacturas();
               detalleFactura.identificadorFactura = factura.identificador;
-              detalleFactura.identificador_producto_Inventario = objInventario.identificadoInventario;
+              detalleFactura.identificador_producto_Inventario =
+                objInventario.identificadoInventario;
               detalleFactura.nombre_producto = objInventario.nombreProducto;
               detalleFactura.cantidad = objInventario.cantidadaVender;
               detalleFactura.precio_especifico = objInventario.precioProducto;
+              // servicio para ingreso de elementos
               this.clieteServicio
                 .ingresoDetalleFactura(detalleFactura)
                 .subscribe();
             }
           });
+          //eliminacion de elementos del inventario
+          this.eliminardeInventario();
+          // por ultimo generacion de venta globa;
+          // factura e id empelado
+          let generacionVenta: ventas = new ventas();
+          generacionVenta.identificador_empleado = idCajero;
+          generacionVenta.identificador_factura = factura.identificador;
+          this.clieteServicio.ingresoVenta(generacionVenta).subscribe();
         });
     }
-  }
+
 
   //funcion para que el boton muestre los descuentos --------------------
   generarPosiblesDescuentoBoton() {
     this.generarBotonDescuento = !this.generarBotonDescuento;
+  }
+
+  //funcion para generarTotal
+  generarTotal(){
+    this.cantidadPagarTotal = this.cantidadPagarParcial - this.descuentoGenerado;
+
+  }
+
+  //funcion obtencion de punntos para su uso
+  actualizarPuntosGlobales() {
+
+    // cambiar a descuento
+    //solo uso lo de bodega
+    this.descuentoGenerado=this.cantidadPuntosDescuento;
+    if ((this.cantidadPagarParcial-this.descuentoGenerado) >=0) {
+      console.log("a");
+
+      this.cantidadPagarTotal = Math.abs(this.cantidadPagarParcial-this.descuentoGenerado);
+      this.descuentoGenerado =0;
+    } else {
+      console.log("b");
+
+      // como se que es menor solo le asigno a total
+      this.descuentoGenerado = Math.abs(this.descuentoGenerado-this.cantidadPagarParcial);
+      this.cantidadPagarTotal =0;
+
+    }
+    this.descuentoGeneradoUnico = this.descuentoGenerado;
+
   }
 }

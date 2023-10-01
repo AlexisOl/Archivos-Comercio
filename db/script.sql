@@ -153,7 +153,7 @@ CREATE TABLE manejoVentas.Ventas (
     identificador_empleado VARCHAR(25) NOT NULL,
     identificador_factura INT NOT NULL,
     PRIMARY KEY(identificador),
-    FOREIGN KEY (identificador_empleado) REFERENCES registroformacion.Empleados(identificador)
+    FOREIGN KEY (identificador_empleado) REFERENCES manejoEmpleados.Empleados(identificador),
     FOREIGN KEY (identificador_factura) REFERENCES manejoVentas.facturas(identificador)
 );
 

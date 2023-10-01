@@ -1,0 +1,37 @@
+<!-- Llamada al componente de encabezado -->
+<app-header-admin></app-header-admin>
+
+<div class="container">
+  <h1>Reporte de Historial de Descuentos</h1>
+  <hr />
+</div>
+
+<div class="col-md-12">
+  <table class="table table-bordered table-striped table-hover">
+    <thead class="bg-primary text-white">
+      <tr>
+        <th>Identificador</th>
+        <th>Nit cliente</th>
+        <th>Nombre de cliente</th>
+        <th>Total Parcial</th>
+        <th>Descuento</th>
+        <th>Total Descontado</th>
+        <th>Fecha</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Iteración sobre los elementos en 'valores' para mostrar los datos -->
+      <ng-container *ngFor="let usuario of valores">
+        <tr *ngIf="usuario.total_global - usuario.total_descontado > 0">
+          <td>{{ usuario.identificador }}</td>
+          <td>{{ usuario.nit_cliente }}</td>
+          <td>{{ usuario.nombre_cliente }}</td>
+          <td>{{ usuario.total_global }}</td>
+          <td>{{ usuario.total_global - usuario.total_descontado }}</td>
+          <td>{{ usuario.total_descontado }}</td>
+          <td>{{ usuario.fecha_facturacion }}</td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
+</div>

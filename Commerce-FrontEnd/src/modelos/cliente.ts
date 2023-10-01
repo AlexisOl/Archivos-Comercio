@@ -4,4 +4,5 @@ export class cliente {
   nombre!: string
   descuentos: number|null = null
   cantidadGastado!: number
+  puntosganados!:number
 }

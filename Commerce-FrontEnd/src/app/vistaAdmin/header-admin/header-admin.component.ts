@@ -17,6 +17,10 @@ export class HeaderAdminComponent implements OnInit{
     this.router.navigate(['./inicio'])
   }
 
+  reporteHistorialDescuento() {
+    this.router.navigate(['generalAdmin/historialDescuento']);
+  }
+
 
   ngOnInit(): void {
     throw new Error('Method not implemented.');

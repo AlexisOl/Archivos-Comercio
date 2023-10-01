@@ -3,6 +3,7 @@ const controllerUser = require('../controller/userController')
 const controllerProducto = require('../controller/bodegaController');
 const inventarioController = require('../controller/inventarioController');
 const clienteController = require('../controller/clienteController');
+const adminController = require('../controller/adminController');
 
 const router = express.Router();
 // obtener usuario en sesion
@@ -36,6 +37,11 @@ router.post('/elimnarCantidadProducto', clienteController.eliminarElementosCompr
 router.post('/generarFactura', clienteController.ingresoFactura)
 router.post('/ingresoDetalleFactura', clienteController.detalleFacturaIngreso)
 router.post('/ingresoVenta', clienteController.ingresoVentaFinal)
+router.post('/actualizacionClienteVenta', clienteController.actualizacionClientesVenta)
+router.post('/actualizacionClienteVentaconDescuento', clienteController.actualizacionClienteVentaDescuento)
+
+//rutas admin
+router.get('/historialFactura', adminController.buscarFactura)
 
 
 

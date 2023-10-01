@@ -50,6 +50,13 @@ import {MatStepperModule} from '@angular/material/stepper';
 import { ModificarClienteComponent } from './vistaCajero/modificar-cliente/modificar-cliente.component';
 import {MatInputModule} from '@angular/material/input';
 import {MatListModule} from '@angular/material/list';
+import { ReporteVentasGrandesComponent } from './vistaAdmin/reportes/reporte-ventas-grandes/reporte-ventas-grandes.component';
+import { ReporteHistorialDescuentosComponent } from './vistaAdmin/reportes/reporte-historial-descuentos/reporte-historial-descuentos.component';
+import { ReporteDineroSucursalesComponent } from './vistaAdmin/reportes/reporte-dinero-sucursales/reporte-dinero-sucursales.component';
+import { ReporteArticulosVendidosComponent } from './vistaAdmin/reportes/reporte-articulos-vendidos/reporte-articulos-vendidos.component';
+import { ReporteClientesDineroGastadoComponent } from './vistaAdmin/reportes/reporte-clientes-dinero-gastado/reporte-clientes-dinero-gastado.component';
+import { ManejoEmpleadoComponent } from './vistaAdmin/manejo-empleado/manejo-empleado.component';
+import { ManejoTarjetasComponent } from './vistaAdmin/manejo-tarjetas/manejo-tarjetas.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -77,6 +84,13 @@ import {MatListModule} from '@angular/material/list';
     VerProductosSucursalComponent,
     ElementosCardComponent,
     ModificarClienteComponent,
+    ReporteVentasGrandesComponent,
+    ReporteHistorialDescuentosComponent,
+    ReporteDineroSucursalesComponent,
+    ReporteArticulosVendidosComponent,
+    ReporteClientesDineroGastadoComponent,
+    ManejoEmpleadoComponent,
+    ManejoTarjetasComponent,
   ],
   imports: [
 
