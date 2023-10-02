@@ -12,8 +12,8 @@ const pool = new Pool({
 // generacion de la conexion de postgres - GLOBAL
 const pool2 = new Pool({
     host: "localhost",
-    user: "userBodegaNuevo",
-    password: "user1_123",
+    user: "bodegausuario",
+    password: "bodega123",
     database: "chapin_market",
     port: "5432"
   });
@@ -29,6 +29,14 @@ const pool2 = new Pool({
   
 
 
+  const pool5 = new Pool({
+    host: "localhost",
+    user: "cajerousuario",
+    password: "cash123",
+    database: "chapin_market",
+    port: "5432"
+  });
+  
 
 
 const getAlgo = async(req, res) => {
@@ -41,6 +49,7 @@ module.exports = {
     getAlgo,
     pool,
     pool2,
-    pool3
+    pool3,
+    pool5
 
 };

@@ -1,9 +1,9 @@
-const { pool } = require("../model/conexiondb");
+const { pool3 } = require("../model/conexiondb");
 
 const mostrarBodega = async (req, res) => {
   const id_sucursal = req.query.id_sucursal;
   try {
-    const result = await pool.query(
+    const result = await pool3.query(
       "SELECT * FROM manejoproductos.asingacionbodega WHERE id_sucursal = $1 ORDER BY identificador ASC;",
       [id_sucursal]
     );
@@ -19,7 +19,7 @@ const mostrarInventario = async(req, res) => {
   //const id = req.query.identificadorl
 
   try{
-    const result = await pool.query(
+    const result = await pool3.query(
       "SELECT * FROM manejoinventario.registroinventariobodega ORDER BY identificador ASC;"
     )
     res.status(200).json(result.rows);
@@ -36,7 +36,7 @@ const buscarProductoBodega = async (req, res) => {
   const id = req.query.identificador; // Cambia req.body.id a req.query.identificador
   try {
     // Consulta SQL para buscar el producto por identificador
-    const result = await pool.query(
+    const result = await pool3.query(
       "SELECT * FROM manejoproductos.asingacionbodega WHERE identificador = $1;",
       [id]
     );
@@ -57,7 +57,7 @@ const buscaCantidadProdInventario = async (req, res) => {
   const id = req.query.identificador;
   console.log(id);
   try {
-    const result = await pool.query(
+    const result = await pool3.query(
       "SELECT * FROM manejoinventario.registroinventariobodega WHERE codigo_producto_bodega = $1;",
       [id]
     );
@@ -91,12 +91,12 @@ const ingresoElementos = async (req, res) => {
 
   try {
     // Verificar si ya existe una asignación para el mismo producto en la misma sucursal
-    const enSucursal = await pool.query(
+    const enSucursal = await pool3.query(
       "SELECT * FROM manejoproductos.asingacionbodega WHERE id_sucursal = $1 AND identificador = $2 ",
       [idSucursal, codigo_producto_bodega]
     );
     console.log(" ----  ", enSucursal.fields);
-    const existingAssignment = await pool.query(
+    const existingAssignment = await pool3.query(
       "SELECT * FROM manejoinventario.registroinventariobodega WHERE codigo_producto_bodega = $1 ",
       [codigo_producto_bodega]
     );
@@ -114,7 +114,7 @@ const ingresoElementos = async (req, res) => {
           id_empleado
         );
       } else {
-        await pool.query(
+        await pool3.query(
           "INSERT INTO manejoinventario.registroinventariobodega (codigo_producto_bodega, estado_uso, cantidadgeneral, pasillo, id_empleado ) VALUES ($1, $2, $3, $4, $5)",
           [codigo_producto_bodega, estado, cantidadInventario, pasillo, id_empleado]
         );
@@ -139,7 +139,7 @@ async function eliminarBodegaInicial(
   idEmpleado,
   pasillo
 ) {
-  const cantidadBodega = await pool.query(
+  const cantidadBodega = await pool3.query(
     "SELECT * FROM manejoproductos.asingacionbodega WHERE identificador = $1",
     [identificador]
   );
@@ -148,12 +148,12 @@ async function eliminarBodegaInicial(
 
   if (cantidad <= cantidaddeBodega) {
     const actualizaBodega = cantidaddeBodega - cantidad;
-    await pool.query(
+    await pool3.query(
       "UPDATE manejoproductos.asingacionbodega SET cantidad = $1 WHERE identificador = $2",
       [actualizaBodega, identificador]
     );
 
-    await pool.query(
+    await pool3.query(
       "UPDATE manejoinventario.registroinventariobodega SET cantidadgeneral = $1, id_empleado = $2 WHERE codigo_producto_bodega = $3;",
       [cantidadInventario, idEmpleado, identificador]
     );
@@ -169,7 +169,7 @@ async function eliminarBodega(
   cantidadInventario,
   idEmpleado
 ) {
-  const cantidadBodega = await pool.query(
+  const cantidadBodega = await pool3.query(
     "SELECT * FROM manejoproductos.asingacionbodega WHERE identificador = $1",
     [identificador]
   );
@@ -178,12 +178,12 @@ async function eliminarBodega(
 
   if (cantidad <= cantidaddeBodega) {
     const actualizaBodega = cantidaddeBodega - cantidad;
-    await pool.query(
+    await pool3.query(
       "UPDATE manejoproductos.asingacionbodega SET cantidad = $1 WHERE identificador = $2",
       [actualizaBodega, identificador]
     );
 
-    await pool.query(
+    await pool3.query(
       "UPDATE manejoinventario.registroinventariobodega SET cantidadgeneral = $1, id_empleado = $2 WHERE codigo_producto_bodega = $3;",
       [cantidadInventario, idEmpleado, identificador]
     );
@@ -204,13 +204,13 @@ const devolucionBodega = async (req, res) => {
   const { cantidad, id, idSucursal , maximo} = req.body;
   try {
     // Verificar si ya existe una asignación para el mismo producto en la misma sucursal
-    const enSucursal = await pool.query(
+    const enSucursal = await pool3.query(
       "SELECT * FROM manejoproductos.asingacionbodega WHERE id_sucursal = $1 AND identificador = $2 ",
       [idSucursal, id]
     );
 
     if (enSucursal.rows.length > 0) {
-      const cantidadBodega = await pool.query(
+      const cantidadBodega = await pool3.query(
         "SELECT * FROM manejoproductos.asingacionbodega WHERE identificador = $1",
         [id]
       );
@@ -219,12 +219,12 @@ const devolucionBodega = async (req, res) => {
       const actualizacionBodega = cantidaddeBodega+cantidad
       console.log(actualizacionBodega+"<<<<");
       //para el inventario
-       await pool.query(
+       await pool3.query(
         "UPDATE manejoinventario.registroinventariobodega SET cantidadgeneral = $1 WHERE codigo_producto_bodega = $2",
         [maximo-cantidad, id]
       );
       // para la bodega
-      await pool.query(
+      await pool3.query(
         "UPDATE manejoproductos.asingacionbodega SET cantidad = $1 WHERE identificador = $2",
         [actualizacionBodega, id]
       );

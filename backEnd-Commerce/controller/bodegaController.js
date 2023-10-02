@@ -1,4 +1,4 @@
-const { pool } = require('../model/conexiondb'); 
+const { pool2 } = require('../model/conexiondb'); 
 
 
 const setProducto = async (req, res) => {
@@ -11,7 +11,7 @@ const setProducto = async (req, res) => {
  
 
     try {
-        await pool.query("INSERT INTO manejoproductos.productos (nombre, precio) VALUES ($1, $2);", [nombre, precio]);
+        await pool2.query("INSERT INTO manejoproductos.productos (nombre, precio) VALUES ($1, $2);", [nombre, precio]);
         res.status(200).json({ message: 'Producto ingresado con éxito' });
     } catch (error) {
         console.error(error);
@@ -25,7 +25,7 @@ const buscarProducto = async (req, res) => {
   const id = req.query.identificador; // Cambia req.body.id a req.query.identificador
   try {
     // Consulta SQL para buscar el producto por identificador
-    const result = await pool.query('SELECT * FROM manejoproductos.productos WHERE identificador = $1', [id]);
+    const result = await pool2.query('SELECT * FROM manejoproductos.productos WHERE identificador = $1', [id]);
 
     if (result.rows.length === 1) {
       res.status(200).json(result.rows[0]);
@@ -41,7 +41,7 @@ const buscarProducto = async (req, res) => {
 //busqueda general de productos:
 const busquedaGeneral = async (req, res) => {
   try {
-    const result = await pool.query('SELECT * FROM manejoproductos.productos;');
+    const result = await pool2.query('SELECT * FROM manejoproductos.productos;');
   
     res.status(200).json(result.rows)
 
@@ -61,7 +61,7 @@ const ingresoAsignacionProducto = async(req, res) => {
     
       try {
         // Verificar si ya existe una asignación para el mismo producto en la misma sucursal
-        const existingAssignment = await pool.query(
+        const existingAssignment = await pool2.query(
           'SELECT * FROM manejoproductos.asingacionbodega WHERE id_sucursal = $1 AND id_producto = $2',
           [id_sucursal, id_producto]
         );
@@ -70,13 +70,13 @@ const ingresoAsignacionProducto = async(req, res) => {
           // Si ya existe, actualiza la cantidad y la fecha
           const updatedQuantity = existingAssignment.rows[0].cantidad + cantidad;
     
-          await pool.query(
+          await pool2.query(
             'UPDATE manejoproductos.asingacionbodega SET cantidad = $1, fecha_asignacion = $2 WHERE id_sucursal = $3 AND id_producto = $4',
             [updatedQuantity, fecha, id_sucursal, id_producto]
           );
         } else {
           // Si no existe, inserta una nueva asignación con la cantidad y la fecha proporcionada
-          await pool.query(
+          await pool2.query(
             'INSERT INTO manejoproductos.asingacionbodega (cantidad, fecha_asignacion, id_sucursal, id_producto) VALUES ($1, $2, $3, $4)',
             [ cantidad, fecha,id_sucursal, id_producto]
           );

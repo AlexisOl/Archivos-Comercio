@@ -162,27 +162,60 @@ CREATE TABLE manejoVentas.Ventas (
 
 -- scripts de roles ------------------------------------------------------
 
---- rol para bodega
 
 --usuario 1 :  -------------------------------------
+-- Crea el rol inventariorol
 CREATE ROLE inventariorol;
+
 GRANT CONNECT ON DATABASE chapin_market TO inventariorol;
-GRANT USAGE ON SCHEMA manejoProductos,manejoInventario  TO inventariorol;
-GRANT INSERT, UPDATE, DELETE ON TABLE manejoProductos.Productos, manejoProductos.asingacionBodega TO inventariorol;
-GRANT INSERT, UPDATE, DELETE ON TABLE manejoInventario.registroInventarioBodega TO inventariorol;
+
+GRANT USAGE ON SCHEMA manejoProductos, manejoInventario TO inventariorol;
+GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE manejoProductos.asingacionBodega TO inventariorol;
+GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE manejoProductos.productos TO inventariorol;
+GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE manejoInventario.registroInventarioBodega TO inventariorol;
+GRANT USAGE, SELECT ON SEQUENCE manejoInventario.registroInventarioBodega_identificador_seq TO inventariorol;
+
 CREATE USER userinventario WITH PASSWORD 'inv1234';
 
 GRANT inventariorol TO userinventario;
 
 
 
-CREATE ROLE bodegarolNuevo;
-GRANT CONNECT ON DATABASE chapin_market TO bodegarolNuevo;
-GRANT USAGE ON SCHEMA manejoProductos TO bodegarolNuevo;
-GRANT INSERT, UPDATE, DELETE ON TABLE manejoProductos.Productos, manejoProductos.asingacionBodega TO bodegarolNuevo;
-CREATE USER userBodegaNuevo WITH PASSWORD 'user1_123';
 
-GRANT bodegarolNuevo TO userBodegaNuevo;
+
+
+
+
+--- rol para bodega
+CREATE ROLE bodeganormal;
+
+GRANT CONNECT ON DATABASE chapin_market TO bodeganormal;
+GRANT USAGE ON SCHEMA manejoProductos TO bodeganormal;
+GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE manejoProductos.Productos, manejoProductos.asingacionBodega TO bodeganormal;
+GRANT SELECT, USAGE ON ALL SEQUENCES IN SCHEMA manejoProductos TO bodeganormal;
+
+CREATE USER bodegausuario WITH PASSWORD 'bodega123';
+
+GRANT bodeganormal TO bodegausuario;
+
+
+
+
+-- Crear el rol del cajero
+
+
+-- Crear el cajero
+CREATE ROLE cajerorol;
+
+GRANT CONNECT ON DATABASE chapin_market TO cajerorol;
+GRANT USAGE ON SCHEMA manejoProductos, manejoGeneral, manejoEmpleados, manejoVentas, manejoInventario TO cajerorol;
+GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA manejoProductos, manejoGeneral, manejoEmpleados, manejoVentas, manejoInventario TO cajerorol;
+--seucencias
+GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA manejoProductos, manejoGeneral, manejoEmpleados, manejoVentas, manejoInventario TO cajerorol;
+
+CREATE USER cajerousuario WITH PASSWORD 'cash123';
+-- Asignar el rol al usuario
+GRANT cajerorol TO cajerousuario;
 
 
 -- scripts de inserciones ------------------------------------------------------

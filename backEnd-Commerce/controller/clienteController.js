@@ -1,4 +1,4 @@
-const { pool } = require('../model/conexiondb'); 
+const { pool5 } = require('../model/conexiondb'); 
 
 
 const buscarCliente = async(req, res) => {
@@ -7,7 +7,7 @@ const buscarCliente = async(req, res) => {
 
 
     try {
-        const result = await pool.query("SELECT * FROM manejoGeneral.Clientes WHERE nit = $1;",
+        const result = await pool5.query("SELECT * FROM manejoGeneral.Clientes WHERE nit = $1;",
         [nit]);
         // mandar peticion 
         if (result.rows.length <1) {
@@ -27,7 +27,7 @@ const buscarCliente = async(req, res) => {
 const devolverProductoInventario = async(req, res) => {
     const { id_sucursal} = req.query;
     try {
-        const result = await pool.query("SELECT * FROM manejoempleados.empleados WHERE id_sucursal=$1; ",
+        const result = await pool5.query("SELECT * FROM manejoempleados.empleados WHERE id_sucursal=$1; ",
         [id_sucursal]);
 
         const valor = result.rows;
@@ -53,7 +53,7 @@ const devolverProductoInventario = async(req, res) => {
         console.log(valorCasteo);
         
         //*** este si lo quiero devolver  **/
-        const inventarioResult = await pool.query(
+        const inventarioResult = await pool5.query(
             `SELECT * FROM manejoinventario.registroinventariobodega WHERE id_empleado IN (${valorCasteo});`
         );
         console.log(inventarioResult.rows);
@@ -70,7 +70,7 @@ const devolverProductoInventario = async(req, res) => {
 
 
 
-        const bodegaPeticionInventarioResult = await pool.query(
+        const bodegaPeticionInventarioResult = await pool5.query(
             `SELECT * FROM manejoproductos.asingacionbodega WHERE identificador IN (${nuevoArrayIdentificadorBodega});`
             
         );
@@ -92,7 +92,7 @@ const devolverProductoInventario = async(req, res) => {
                                                                                     rows.id_producto);
         const arrayProductoTexto = todoslosProductosSucursal.join(',');
         const arrayFinalProducto = arrayProductoTexto.split(',');
-        const productoPeticionInventarioResult = await pool.query(
+        const productoPeticionInventarioResult = await pool5.query(
             `SELECT * FROM manejoproductos.productos WHERE identificador IN (${arrayFinalProducto});`
             
         );
@@ -124,7 +124,7 @@ const ingresoCliente = async(req, res) => {
 
     try {
      
-        await pool.query(
+        await pool5.query(
             'INSERT INTO manejoGeneral.Clientes (nombre, nit, descuentos, cantidadGastado, puntosGanados) VALUES ($1, $2, $3, $4, $5)',
             [ nombre, nit,null, cantidadGastado, puntosganados]
         );
@@ -142,7 +142,7 @@ const obtenerTarjeta = async(req, res) => {
     const { identificador } = req.query;
     console.log("tarjeta id"+identificador);
     try {
-        const valorTarjeta = await pool.query(
+        const valorTarjeta = await pool5.query(
             'SELECT * FROM manejoGeneral.tarjetas WHERE identificador = $1;',
             [ identificador]
         );
@@ -162,7 +162,7 @@ const eliminarElementosCompra = async (req, res) => {
     if(identificador !== null){
         try {
           // Obtención del valor general
-          const cantidadInicial = await pool.query(
+          const cantidadInicial = await pool5.query(
             "SELECT * FROM manejoinventario.registroinventariobodega WHERE identificador = $1",
             [identificador]
           );
@@ -172,7 +172,7 @@ const eliminarElementosCompra = async (req, res) => {
             const cantidadActualizada =
               parseInt(cantidadInicial.rows[0].cantidadgeneral) - parseInt(cantidad);
       
-            await pool.query(
+            await pool5.query(
               "UPDATE manejoinventario.registroinventariobodega SET cantidadgeneral = $1 WHERE identificador = $2;",
               [cantidadActualizada, identificador]
             );
@@ -203,7 +203,7 @@ const eliminarElementosCompra = async (req, res) => {
   const ingresoFactura = async (req, res) => {
     const {identificador, nit_cliente, nombre_cliente, total_global, total_descontado, fecha_facturacion} = req.body;
     try {
-        const valorIdentificador = await pool.query(
+        const valorIdentificador = await pool5.query(
             'INSERT INTO manejoventas.facturas (nit_cliente, nombre_cliente, total_global, total_Descontado, fecha_facturacion) VALUES ($1, $2, $3, $4, $5) RETURNING identificador;',
             [ nit_cliente, nombre_cliente,total_global, total_descontado, fecha_facturacion]
         );
@@ -221,7 +221,7 @@ const eliminarElementosCompra = async (req, res) => {
 const detalleFacturaIngreso = async (req, res) => {
     const {identificador, identificadorFactura, identificador_producto_Inventario, nombre_producto, cantidad, precio_especifico} = req.body;
     try {
-        await pool.query(
+        await pool5.query(
             'INSERT INTO manejoventas.detallefacturas (identificadorFactura, identificador_producto_Inventario, nombre_producto, cantidad, precio_especifico) VALUES ($1, $2, $3, $4, $5)',
             [ identificadorFactura, identificador_producto_Inventario,nombre_producto, parseFloat(cantidad), parseFloat(precio_especifico)]
         );
@@ -237,7 +237,7 @@ const detalleFacturaIngreso = async (req, res) => {
 const ingresoVentaFinal = async (req, res) => {
     const {identificador, identificador_empleado, identificador_factura} = req.body;
     try {
-        await pool.query(
+        await pool5.query(
             'INSERT INTO manejoventas.Ventas (identificador_empleado, identificador_factura) VALUES ($1, $2)',
             [ identificador_empleado, identificador_factura]
         );
@@ -263,7 +263,7 @@ const ingresoVentaFinal = async (req, res) => {
       const cantidadGastadoEntero = parseFloat(canitdadGastado);
 
 
-      const clienteEspecifico = await pool.query(
+      const clienteEspecifico = await pool5.query(
         "SELECT * FROM manejogeneral.clientes WHERE nit = $1",
         [nit]
       ) ;
@@ -274,7 +274,7 @@ const ingresoVentaFinal = async (req, res) => {
       console.log(clienteEspecifico.rows[0].puntosganados, clienteEspecifico.rows[0].cantidadgastado);
       console.log(`Cantidad Global de Puntos: ${cantidadGlobalPuntos}, Cantidad Global de Dinero: ${cantidadGloblaDinero}`);
 
-      await pool.query(
+      await pool5.query(
         'UPDATE manejogeneral.clientes SET puntosGanados = $1, cantidadGastado = $2 WHERE nit = $3',
         [ cantidadGlobalPuntos, cantidadGloblaDinero,nit ]
     );
@@ -296,7 +296,7 @@ const ingresoVentaFinal = async (req, res) => {
       const cantidadGastadoEntero = (canitdadGastado);
      
       //actualiza
-      await pool.query(
+      await pool5.query(
           'UPDATE manejoGeneral.Clientes SET puntosGanados = $1 WHERE nit = $2',
           [puntosGanadosEntero, nit ]
       );
