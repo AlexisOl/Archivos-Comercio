@@ -81,14 +81,14 @@ export class ManejoProductosComponent implements OnInit {
       nuevoProductoInventario.cantidadInventario = this.cantidadProducto;
       nuevoProductoInventario.pasillo = this.pasilloProducto;
       nuevoProductoInventario.id_empleado = this.idEmpleado;
-      nuevoProductoInventario.id_prod_bodega = idProductoBodegaInt;
+      nuevoProductoInventario.codigo_producto_bodega = idProductoBodegaInt;
       nuevoProductoInventario.estado = "en Inventario"
 
-      console.log(nuevoProductoInventario.pasillo, nuevoProductoInventario.cantidadInventario, nuevoProductoInventario.id_prod_bodega, nuevoProductoInventario.id_empleado);
+      console.log(nuevoProductoInventario.pasillo, nuevoProductoInventario.cantidadInventario, nuevoProductoInventario.codigo_producto_bodega, nuevoProductoInventario.id_empleado);
 
       this.servicioInventario.ingresoElementos(nuevoProductoInventario, this.servicioSucursal.getUsuario()?.id_sucursal).subscribe(
         (producto: productoInventario) => {
-          if (producto && producto.id_empleado !== undefined && producto.id_prod_bodega !== undefined) {
+          if (producto && producto.id_empleado !== undefined && producto.codigo_producto_bodega !== undefined) {
             console.log('Ingreso exitoso');
           } else {
             console.log('No se pudo ingresar Correctamente', 'error');

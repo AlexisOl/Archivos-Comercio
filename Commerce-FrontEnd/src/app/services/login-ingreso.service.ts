@@ -17,8 +17,8 @@ export class LoginIngresoService {
 
   /// genreacion de la peticion
 
-  public getUsuario(usuario: usuarios):Observable<usuarios>{
-    return this.http.get<usuarios>(this.URL+'user-sesion?nombre='+usuario.nombre+"&password="+usuario.password)
+  public getUsuario(nombre:string, password:string):Observable<usuarios>{
+    return this.http.get<usuarios>(this.URL+'user-sesion?nombre='+nombre+"&password="+password)
 
   }
   //buscar id usuario

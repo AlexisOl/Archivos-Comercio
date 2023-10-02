@@ -1,1 +1,35 @@
-<p>reporte-clientes-dinero-gastado works!</p>
+<!-- Llamada al componente de encabezado -->
+<app-header-admin></app-header-admin>
+
+<div class="container">
+  <h1>Reporte Top - 10 Clienetes con mas Gastos</h1>
+  <hr />
+</div>
+
+<div class="col-md-12">
+  <table class="table table-bordered table-striped table-hover">
+    <thead class="bg-primary text-white">
+      <tr>
+        <th>Identificador</th>
+        <th>Nombre de cliente</th>
+        <th>Nit de Cliente</th>
+        <th>Descuento</th>
+        <th>Cantidad Gastado</th>
+        <th>Puntos Ganados</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Iteración sobre los elementos en 'valores' para mostrar los datos -->
+      <ng-container *ngFor="let usuario of valores">
+        <tr >
+          <td>{{ usuario.identificador }}</td>
+          <td>{{ usuario.nombre }}</td>
+          <td>{{ usuario.nit }}</td>
+          <td>{{ usuario.descuentos }}</td>
+          <td>{{ usuario.cantidadgastado }}</td>
+          <td>{{ usuario.puntosganados }}</td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
+</div>

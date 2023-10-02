@@ -1,1 +1,39 @@
-<p>reporte-ventas-grandes works!</p>
+<!-- Llamada al componente de encabezado -->
+<app-header-admin></app-header-admin>
+
+<div class="container">
+  <h1>Reporte Top - 10 Clienetes con mas Gastos</h1>
+  <hr />
+</div>
+
+<div class="col-md-12">
+  <table class="table table-bordered table-striped table-hover">
+    <thead class="bg-primary text-white">
+      <tr>
+        <th>No.</th>
+        <th>Identificador</th>
+        <th>Identificador de  Empleado</th>
+        <th>Identificador de Factura</th>
+        <th>nit de cliente</th>
+        <th>Cantidad Total</th>
+        <th>Fecha</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Iteración sobre los elementos en 'valores' para mostrar los datos -->
+
+      <ng-container *ngFor="let usuario of valorFinalMaxVenta.slice(0, 10); let i=index;">
+        <tr>
+          <td>{{ i+1 }}</td>
+          <td>{{ usuario.identificador }}</td>
+          <td>{{ usuario.identificador_empleado }}</td>
+          <td>{{ usuario.identificador_factura }}</td>
+          <td>{{ usuario.nit_cliente }}</td>
+          <td>{{ usuario.total_descontado }}</td>
+          <td>{{ usuario.fecha_facturacion }}</td>
+        </tr>
+      </ng-container>
+
+    </tbody>
+  </table>
+</div>

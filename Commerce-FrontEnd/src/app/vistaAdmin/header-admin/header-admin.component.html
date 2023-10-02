@@ -1,21 +1,27 @@
 <mat-toolbar color="primary">
-
-
-  <button >
+  <button class="small-button">
     <span>Admin - General</span>
   </button>
   <span class="example-spacer"></span>
   <!--serie de botones-->
-  <button >Manejo Empleados</button>
-
-  <button >Manejo Tarjetas</button>
-
-  <button (click)="reporteHistorialDescuento()">Manejo Reportes</button>
-
-
-
-  <button mat-button [matMenuTriggerFor]="fileMenu">Usuarios</button>
-  <mat-menu #fileMenu="matMenu">
-    <button (click)="cerrarSesion()" mat-menu-item>Cerrar Sesion</button>
-  </mat-menu>
+  <button class="small-button" (click)="ingresoEmpelados()">Manejo Empleados</button>
+  <span class="example-spacer"></span>
+  <button class="small-button" (click)="controlTarjetas()">Manejo Tarjetas</button>
+  <span class="example-spacer"></span>
+  <button class="small-button" (click)="reporteHistorialDescuento()">Manejo Reportes</button>
+  <span class="example-spacer"></span>
+  <button class="small-button" (click)="reporteMaxVentas()">Reportes Maximas Ventas</button>
+  <span class="example-spacer"></span>
+  <button class="small-button" (click)="reporteMaxSucursal()">Reportes Maximas Sucursal</button>
+  <span class="example-spacer"></span>
+  <button class="small-button" (click)="reporteClienteDineroGastado()">Reporte Cliente mayor gasto de dinero</button>
+  <span class="example-spacer"></span>
+  <button class="small-button" (click)="reporteArticuloMasVendido()">Reporte Acticulos mas Vendidos</button>
+  <span class="example-spacer"></span>
+  <div class="dropdown">
+    <button class="small-button" mat-menu-trigger [matMenuTriggerFor]="fileMenu">Usuarios</button>
+    <mat-menu #fileMenu="matMenu">
+      <button (click)="cerrarSesion()" mat-menu-item>Cerrar Sesion</button>
+    </mat-menu>
+  </div>
 </mat-toolbar>

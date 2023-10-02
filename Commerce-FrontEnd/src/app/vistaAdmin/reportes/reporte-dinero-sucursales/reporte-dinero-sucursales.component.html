@@ -1,1 +1,39 @@
-<p>reporte-dinero-sucursales works!</p>
+<!-- Llamada al componente de encabezado -->
+<app-header-admin></app-header-admin>
+
+<div class="container">
+  <h1>Reporte Top - 10 Clienetes con mas Gastos</h1>
+  <hr />
+</div>
+
+<button    mat-raised-button
+color="accent" (click)="obtenerFacturas()" >Obtener Facturas</button>
+<button    mat-raised-button
+color="accent" (click)="verelementosFacturas()" >Solicitar Elementos</button>
+
+
+
+
+<div class="col-md-12">
+  <table class="table table-bordered table-striped table-hover">
+    <thead class="bg-primary text-white">
+      <tr>
+        <th>No.</th>
+        <th>Nombre de Sucursal</th>
+        <th>Cantidad de Dinero</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Iteración sobre los elementos en 'valores' para mostrar los datos -->
+
+      <ng-container *ngFor="let usuario of objetoFinal; let i=index;">
+        <tr>
+          <td>{{ i+1 }}</td>
+          <td>{{ usuario.nombreSucusral }}</td>
+          <td>{{ usuario.cantidadDinero }}</td>
+        </tr>
+      </ng-container>
+
+    </tbody>
+  </table>
+</div>

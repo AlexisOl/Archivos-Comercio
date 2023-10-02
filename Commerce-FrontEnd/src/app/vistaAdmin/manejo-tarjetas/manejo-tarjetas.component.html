@@ -1,1 +1,51 @@
-<p>manejo-tarjetas works!</p>
+<app-header-admin></app-header-admin>
+
+
+<div class="container">
+  <form class="form-container" #f = "ngForm">
+    <mat-card class="example-card">
+      <mat-card-header>
+        <mat-card-title>Informacion</mat-card-title>
+        <mat-card-subtitle>Ingreso a Empelado</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <hr />
+
+        <div class="col-md-12">
+          <table class="table table-bordered table-striped table-hover">
+            <thead class="bg-primary text-white">
+              <tr>
+                <th>No.</th>
+                <th>Nombre de Cliente</th>
+                <th>Nit CLiente</th>
+                <th>Cantidad de Dinero</th>
+                <th>Descuento</th>
+                <th>Actualizar Tarjeta</th>
+                <th>Actualizar</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Iteración sobre los elementos en 'valores' para mostrar los datos -->
+
+              <ng-container *ngFor="let usuario of objetoFinal; let i=index;">
+                <tr>
+                  <td>{{ i+1 }}</td>
+                  <td>{{ usuario.nombre }}</td>
+                  <td>{{ usuario.nit }}</td>
+                  <td>{{ usuario.cantidadgastado }}</td>
+                  <td>{{ usuario.descuentos }}</td>
+                  <td>{{ usuario.descuentos }}</td>
+                  <td>
+                   <button mat-raised-button  color="primary">Ingreso</button>
+                  </td>
+                </tr>
+              </ng-container>
+
+            </tbody>
+          </table>
+        </div>
+      </mat-card-content>
+
+    </mat-card>
+  </form>
+</div>

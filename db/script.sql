@@ -109,8 +109,8 @@ CREATE TABLE manejoGeneral.Clientes (
     nombre VARCHAR(50) NOT NULL,
     nit VARCHAR(15) NOT NULL,
     descuentos INT,
-    cantidadGastado INT,
-    puntosGanados INT not null,
+    cantidadGastado DECIMAL(10,2),
+    puntosGanados DECIMAL(10,2) not null,
     PRIMARY KEY(identificador),
     FOREIGN KEY (descuentos) REFERENCES manejoGeneral.tarjetas(identificador)
 );
@@ -162,8 +162,27 @@ CREATE TABLE manejoVentas.Ventas (
 
 -- scripts de roles ------------------------------------------------------
 
---- rol para 
+--- rol para bodega
 
+--usuario 1 :  -------------------------------------
+CREATE ROLE inventariorol;
+GRANT CONNECT ON DATABASE chapin_market TO inventariorol;
+GRANT USAGE ON SCHEMA manejoProductos,manejoInventario  TO inventariorol;
+GRANT INSERT, UPDATE, DELETE ON TABLE manejoProductos.Productos, manejoProductos.asingacionBodega TO inventariorol;
+GRANT INSERT, UPDATE, DELETE ON TABLE manejoInventario.registroInventarioBodega TO inventariorol;
+CREATE USER userinventario WITH PASSWORD 'inv1234';
+
+GRANT inventariorol TO userinventario;
+
+
+
+CREATE ROLE bodegarolNuevo;
+GRANT CONNECT ON DATABASE chapin_market TO bodegarolNuevo;
+GRANT USAGE ON SCHEMA manejoProductos TO bodegarolNuevo;
+GRANT INSERT, UPDATE, DELETE ON TABLE manejoProductos.Productos, manejoProductos.asingacionBodega TO bodegarolNuevo;
+CREATE USER userBodegaNuevo WITH PASSWORD 'user1_123';
+
+GRANT bodegarolNuevo TO userBodegaNuevo;
 
 
 -- scripts de inserciones ------------------------------------------------------
@@ -179,6 +198,13 @@ INSERT INTO manejogeneral.sucursal VALUES
   ('2','sur', '172'),
   ('3','centro', '300');
 
+  INSERT INTO manejoEmpleados.Roles VALUES 
+  ('1','cajero'),
+  ('2','bodega'),
+  ('3','administrador'),
+  ('4','inventario')
+  ;
+
 
 
 
@@ -191,3 +217,10 @@ INSERT INTO manejoGeneral.tarjetas VALUES
 INSERT INTO manejoGeneral.clientes VALUES 
   ('jose','1234', '0','30000' ),
   ('alexxus','2468', '100','20000');
+
+
+
+INSERT INTO manejoempleados.empleados VALUES 
+  ('7','Ricardo', 'contrasenia3', 4, 3),
+  ('8','Josefa', 'contrasenia3', 4, 1),
+  ;

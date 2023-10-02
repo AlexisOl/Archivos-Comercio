@@ -1,14 +1,33 @@
 const conexion = require("./db.js");
 const {Pool} = require('pg');
 
-// generacion de la conexion de postgres
+// generacion de la conexion de postgres - GLOBAL
 const pool = new Pool({
     host: "localhost",
     user: "postgres",
     password: "password",
-    database: "chapin_m",
+    database: "chapin_market",
     port: "5432"
 });
+// generacion de la conexion de postgres - GLOBAL
+const pool2 = new Pool({
+    host: "localhost",
+    user: "userBodegaNuevo",
+    password: "user1_123",
+    database: "chapin_market",
+    port: "5432"
+  });
+  
+
+  const pool3 = new Pool({
+    host: "localhost",
+    user: "userinventario",
+    password: "inv1234",
+    database: "chapin_market",
+    port: "5432"
+  });
+  
+
 
 
 
@@ -20,6 +39,8 @@ const getAlgo = async(req, res) => {
 
 module.exports = {
     getAlgo,
-    pool
+    pool,
+    pool2,
+    pool3
 
 };

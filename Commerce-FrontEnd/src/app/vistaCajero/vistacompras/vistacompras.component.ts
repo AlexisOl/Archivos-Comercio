@@ -347,6 +347,7 @@ export class VistacomprasComponent implements OnInit {
     // si todo es no nulo lo hace
     if (this.generarBotonDescuento === false) {
       console.log('si da ', this.descuentoGenerado, this.cantidadPagarTotal);
+      console.log(this.cantidadPagarParcial, this.cantidadPagarTotal);
       // lamo a la funcion de venta Metodo en base a los valores simples (sin aplicar descuento)
       this.ventaMetodo(this.nitCliente,
         this.nombreGeneral,
@@ -355,6 +356,7 @@ export class VistacomprasComponent implements OnInit {
         this.fechaVenta,
         this.id_cajero
         );
+
 
 
         // servicio para que me actualice al cliente
@@ -373,6 +375,7 @@ export class VistacomprasComponent implements OnInit {
         // llmado de metodo de ingreso Venta:
 
         this.actualizarPuntosGlobales();
+        console.log(this.cantidadPagarParcial, this.cantidadPagarTotal);
 
         this.ventaMetodo(
             this.nitCliente,
@@ -395,6 +398,7 @@ export class VistacomprasComponent implements OnInit {
   // funcion para generar todas las transacciones de ventas
   ventaMetodo(nitcliente:string, nombregeneral:string, cantidadParcial:number, cantidadTotal:number,
     fechaventa:Date, idCajero:number ) {
+      console.log('cantidad total'+cantidadTotal);
 
       //genera la factura
       let facturaNueva: factura = new factura();
@@ -417,7 +421,7 @@ export class VistacomprasComponent implements OnInit {
               let detalleFactura: detallefacturas = new detallefacturas();
               detalleFactura.identificadorFactura = factura.identificador;
               detalleFactura.identificador_producto_Inventario =
-                objInventario.identificadoInventario;
+              objInventario.identificadoInventario;
               detalleFactura.nombre_producto = objInventario.nombreProducto;
               detalleFactura.cantidad = objInventario.cantidadaVender;
               detalleFactura.precio_especifico = objInventario.precioProducto;
@@ -466,6 +470,7 @@ export class VistacomprasComponent implements OnInit {
 
       // como se que es menor solo le asigno a total
       this.descuentoGenerado = Math.abs(this.descuentoGenerado-this.cantidadPagarParcial);
+
       this.cantidadPagarTotal =0;
 
     }

@@ -21,8 +21,33 @@ export class HeaderAdminComponent implements OnInit{
     this.router.navigate(['generalAdmin/historialDescuento']);
   }
 
+  reporteClienteDineroGastado(){
+    this.router.navigate(['generalAdmin/historialClientesMasGastado'])
+  }
+  reporteMaxVentas(){
+    this.router.navigate(['generalAdmin/historialMaximasVentas'])
+  }
+
+  reporteMaxSucursal(){
+    this.router.navigate(['generalAdmin/historialMaximaSucursal'])
+  }
+
+  reporteArticuloMasVendido(){
+    this.router.navigate(['generalAdmin/historialArticuloMasVendido'])
+  }
+
+
+  ingresoEmpelados(){
+    this.router.navigate(['generalAdmin/ingresoEmpleados'])
+  }
+
+  controlTarjetas(){
+    this.router.navigate(['generalAdmin/controlTarjetas'])
+  }
+
+
+
 
   ngOnInit(): void {
-    throw new Error('Method not implemented.');
   }
 }

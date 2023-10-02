@@ -1,6 +1,14 @@
-.example-spacer {
-  flex: 1 1 auto;
+.small-button {
+  padding: 5px 10px; /* Ajusta el espaciado interior del botón */
+  font-size: 12px; /* Cambia el tamaño de la fuente del botón */
 }
+
+/* Ajusta el espaciado entre los botones */
+.mat-toolbar button {
+  margin-right: 5px; /* Puedes ajustar este valor según tu preferencia */
+}
+
+/* Estilos para el botón desplegable */
 .dropdown {
   position: relative;
   display: inline-block;
@@ -11,7 +19,7 @@
   position: absolute;
   background-color: #000000;
   min-width: 160px;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   z-index: 1;
 }
 

@@ -42,6 +42,21 @@ router.post('/actualizacionClienteVentaconDescuento', clienteController.actualiz
 
 //rutas admin
 router.get('/historialFactura', adminController.buscarFactura)
+router.get('/historialCliente', adminController.buscarCliente)
+router.get('/historialFacturaMaxima', adminController.buscarFacturaMaxCantidad)
+router.get('/historialVenta', adminController.buscarVentaporId)
+router.get('/obtenerUsuariosSucursal', adminController.buscarEmpleadoSucursal)
+router.get('/obtenerFacturasEmpleados', adminController.buscarFacturaEmpeleado)
+router.get('/obtenerTotalesFacturas', adminController.buscarFacturaconIdentificadorVenta)
+router.get('/obtenerCantidadGlobalDetalleFactura', adminController.buscarCantidadGlobalElementos)
+
+router.get('/obtenerCodgioBodegaReporte', adminController.buscarIdBodega)
+router.get('/obtenerCodigoProductoReporte', adminController.buscarIdProducto)
+router.get('/obtenerProductoReporte', adminController.buscarProductoFinal)
+
+
+router.post('/ingresoUsuarios', adminController.ingresoUsuario)
+
 
 
 

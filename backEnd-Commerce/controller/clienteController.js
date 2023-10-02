@@ -34,14 +34,9 @@ const devolverProductoInventario = async(req, res) => {
         const nombres =valor.map(rows => rows.identificador);
         const nuevoArrayNombre = nombres.join(',');
 
-        console.log(nuevoArrayNombre);
-        console.log(typeof(nuevoArrayNombre));
-        var canitdadprueba = [1,7,6].join(',');
-        console.log(canitdadprueba);
-        console.log(typeof canitdadprueba);
         
         // Convierte la cadena en un arreglo usando split(',')
-        var cantidadArray = canitdadprueba.split(',');
+        var cantidadArray = nuevoArrayNombre.split(',');
         
         var valorCasteo = '';
         var valorPosicion = 0;
@@ -206,11 +201,11 @@ const eliminarElementosCompra = async (req, res) => {
   //funcion para ingreso de factura:
 
   const ingresoFactura = async (req, res) => {
-    const {identificador, nit_cliente, nombre_cliente, total_global, total_Descontado, fecha_facturacion} = req.body;
+    const {identificador, nit_cliente, nombre_cliente, total_global, total_descontado, fecha_facturacion} = req.body;
     try {
         const valorIdentificador = await pool.query(
             'INSERT INTO manejoventas.facturas (nit_cliente, nombre_cliente, total_global, total_Descontado, fecha_facturacion) VALUES ($1, $2, $3, $4, $5) RETURNING identificador;',
-            [ nit_cliente, nombre_cliente,total_global, total_Descontado, fecha_facturacion]
+            [ nit_cliente, nombre_cliente,total_global, total_descontado, fecha_facturacion]
         );
     
         res.status(200).json({ 
@@ -264,8 +259,8 @@ const ingresoVentaFinal = async (req, res) => {
 
     try {
       // busca el cliente
-      const puntosGanadosEntero = Math.round(cantidadPuntos);
-      const cantidadGastadoEntero = Math.round(canitdadGastado);
+      const puntosGanadosEntero = parseFloat(cantidadPuntos);
+      const cantidadGastadoEntero = parseFloat(canitdadGastado);
 
 
       const clienteEspecifico = await pool.query(
@@ -274,9 +269,14 @@ const ingresoVentaFinal = async (req, res) => {
       ) ;
       
       //actualiza
+      let cantidadGlobalPuntos = puntosGanadosEntero+parseFloat(clienteEspecifico.rows[0].puntosganados);
+      let cantidadGloblaDinero= cantidadGastadoEntero+parseFloat(clienteEspecifico.rows[0].cantidadgastado);
+      console.log(clienteEspecifico.rows[0].puntosganados, clienteEspecifico.rows[0].cantidadgastado);
+      console.log(`Cantidad Global de Puntos: ${cantidadGlobalPuntos}, Cantidad Global de Dinero: ${cantidadGloblaDinero}`);
+
       await pool.query(
         'UPDATE manejogeneral.clientes SET puntosGanados = $1, cantidadGastado = $2 WHERE nit = $3',
-        [ puntosGanadosEntero+clienteEspecifico.rows[0].puntosganados, cantidadGastadoEntero+clienteEspecifico.rows[0].cantidadgastado,nit ]
+        [ cantidadGlobalPuntos, cantidadGloblaDinero,nit ]
     );
 
     res.status(200).json({ message: 'Asignación de venta exitosa' });
@@ -292,8 +292,8 @@ const ingresoVentaFinal = async (req, res) => {
     const {canitdadGastado, cantidadPuntos, nit} = req.body;
 
     try {
-      const puntosGanadosEntero = Math.round(cantidadPuntos);
-      const cantidadGastadoEntero = Math.round(canitdadGastado);
+      const puntosGanadosEntero = (cantidadPuntos);
+      const cantidadGastadoEntero = (canitdadGastado);
      
       //actualiza
       await pool.query(

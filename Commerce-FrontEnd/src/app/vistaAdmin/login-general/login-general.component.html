@@ -4,7 +4,7 @@
   <mat-sidenav-content>
     <div class="col-md-6 offset-md-3">
       <div class="content mat-elevation-z8 justify-content-center">
-        <form [formGroup]="loginform" (ngSubmit)="generacionLogin()">
+        <form class="form-container" #f = "ngForm">
           <div class="loginForm">
             <div class="mt-2">
               <!--ingreso elementos-->
@@ -12,10 +12,12 @@
                 Nombre de Usuario
               </label>
               <input
-                formControlName="nombre"
-                type="text"
-                class="form-control mt-2"
-                placeholder="Usuario"
+              type="text"
+              class="form-control mt-2"
+              placeholder="Nombre de Empeleado"
+              name="Usuario"
+              [(ngModel)]='nombre'
+
                 required
               />
             </div>
@@ -25,15 +27,17 @@
                 Contrasenia de Usuario
               </label>
               <input
-                formControlName="password"
-                type="password"
-                class="form-control mt-2"
-                placeholder="password"
+              type="text"
+              class="form-control mt-2"
+              placeholder="Contrasenia de Empeleado"
+              name="password"
+              [(ngModel)]='password'
+
                 required
               />
             </div>
             <div class="col-md-12 d-flex mt-6 justify-content-center">
-              <button type="submit" class="btn btn-primary">Ingreso</button>
+              <button (click)="generacionLogin()" class="btn btn-primary">Ingreso</button>
             </div>
           </div>
         </form>

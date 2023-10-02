@@ -77,12 +77,12 @@ const buscaCantidadProdInventario = async (req, res) => {
 const ingresoElementos = async (req, res) => {
   const { producto, idSucursal } = req.body;
   // recibir elementos
-  const { cantidadInventario, pasillo, id_empleado, id_prod_bodega, estado } =
+  const { cantidadInventario, pasillo, id_empleado, codigo_producto_bodega, estado } =
     producto;
-  console.log(cantidadInventario, pasillo, id_empleado, id_prod_bodega, estado);
+  console.log(cantidadInventario, pasillo, id_empleado, codigo_producto_bodega, estado);
   // Verifica si idProductoBodega es un número entero válido
   console.log(idSucursal);
-  if (!Number.isInteger(id_prod_bodega)) {
+  if (!Number.isInteger(codigo_producto_bodega)) {
     return res.status(400).json({
       error:
         "El código de producto en bodega debe ser un número entero válido.",
@@ -93,12 +93,12 @@ const ingresoElementos = async (req, res) => {
     // Verificar si ya existe una asignación para el mismo producto en la misma sucursal
     const enSucursal = await pool.query(
       "SELECT * FROM manejoproductos.asingacionbodega WHERE id_sucursal = $1 AND identificador = $2 ",
-      [idSucursal, id_prod_bodega]
+      [idSucursal, codigo_producto_bodega]
     );
     console.log(" ----  ", enSucursal.fields);
     const existingAssignment = await pool.query(
       "SELECT * FROM manejoinventario.registroinventariobodega WHERE codigo_producto_bodega = $1 ",
-      [id_prod_bodega]
+      [codigo_producto_bodega]
     );
     if (enSucursal.rows.length > 0) {
       if (existingAssignment.rows.length > 0) {
@@ -109,14 +109,14 @@ const ingresoElementos = async (req, res) => {
         // para lo de bodega
         eliminarBodega(
           cantidadInventario,
-          id_prod_bodega,
+          codigo_producto_bodega,
           updatedQuantity,
           id_empleado
         );
       } else {
         await pool.query(
           "INSERT INTO manejoinventario.registroinventariobodega (codigo_producto_bodega, estado_uso, cantidadgeneral, pasillo, id_empleado ) VALUES ($1, $2, $3, $4, $5)",
-          [id_prod_bodega, estado, cantidadInventario, pasillo, id_empleado]
+          [codigo_producto_bodega, estado, cantidadInventario, pasillo, id_empleado]
         );
       }
 
@@ -194,6 +194,12 @@ async function eliminarBodega(
   }
 }
 
+
+//////////------------------------------------
+//////////------------------------------------
+//////////------------------------------------
+//////////------------------------------------
+//////////------------------------------------
 const devolucionBodega = async (req, res) => {
   const { cantidad, id, idSucursal , maximo} = req.body;
   try {
@@ -211,6 +217,7 @@ const devolucionBodega = async (req, res) => {
     
       const cantidaddeBodega = parseInt(cantidadBodega.rows[0].cantidad);
       const actualizacionBodega = cantidaddeBodega+cantidad
+      console.log(actualizacionBodega+"<<<<");
       //para el inventario
        await pool.query(
         "UPDATE manejoinventario.registroinventariobodega SET cantidadgeneral = $1 WHERE codigo_producto_bodega = $2",

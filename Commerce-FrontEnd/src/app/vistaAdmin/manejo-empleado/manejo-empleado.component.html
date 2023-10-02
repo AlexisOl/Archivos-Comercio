@@ -1,1 +1,89 @@
-<p>manejo-empleado works!</p>
+<app-header-admin></app-header-admin>
+
+
+<div class="container">
+  <form class="form-container" #f = "ngForm">
+    <mat-card class="example-card">
+      <mat-card-header>
+        <mat-card-title>Informacion</mat-card-title>
+        <mat-card-subtitle>Ingreso a Empelado</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <hr />
+
+        <div class="row">
+          <div class="col-md-6">
+            <label for="nombre" class="mt-5 d-flex justify-content-center">
+              Nombre de Empelado
+            </label>
+            <input
+              type="text"
+              class="form-control mt-2"
+              placeholder="Nombre de Empeleado"
+              name="identificador_prodcuto"
+              [(ngModel)]='nombre'
+
+              required
+            />
+          </div>
+          <div class="col-md-6">
+            <label for="nombre" class="mt-5 d-flex justify-content-center">
+              Password de Empelado
+            </label>
+            <input
+              type="text"
+              class="form-control mt-2"
+              placeholder="Password de Empelado"
+              name="password"
+              [(ngModel)]='password'
+
+              required
+            />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+
+            <label for="nombre" class="mt-5 d-flex justify-content-center">
+              Identificador de Rol
+            </label>
+            <input
+              type="number"
+              class="form-control mt-2"
+              placeholder="rol de Empleado"
+              name="rol"
+              [(ngModel)]='rol'
+              [min]="1"
+              [max]="4"
+              required
+            />
+          </div>
+          <div class="col-md-6">
+
+            <label for="nombre" class="mt-5 d-flex justify-content-center">
+              Identificador de Sucursal
+            </label>
+            <input
+              type="number"
+              class="form-control mt-2"
+              placeholder="Sucursal de Empelado"
+              name="sucursal"
+              [(ngModel)]='sucursal'
+              [min]="1"
+              [max]="3"
+              required
+            />
+          </div>
+        </div>
+      </mat-card-content>
+      <mat-card-actions>
+        <div class="row">
+          <div class="col-md-6">
+        <button mat-raised-button  color="primary" (click)="ingresoEmpelados()">Ingreso</button>
+      </div>
+
+        </div>
+      </mat-card-actions>
+    </mat-card>
+  </form>
+</div>
